@@ -4,21 +4,28 @@ import Background from '../../Images/background6.jpg'
 import { SocialIcon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import Logo from '../../Images/logo.png'
-
+import * as Navigate from './../../store/navigate/action'
 import {connect} from 'react-redux'
 const {width:WIDTH} = Dimensions.get('window')
 const {height:HEIGHT} = Dimensions.get('window')
 
 
  class Home extends Component {
+     componentDidMount(){
+        const {navigate} = this.props.navigation;
+        this.props.setNavigate(navigate)
+     }
     
     render() {
-
         const {navigate} = this.props.navigation;
-        this.props.dispatch({
-            type:'ADD_PROPS_NAVIGATE',
-            navigate:navigate
-        })
+
+        // console.log (this.props.user)
+
+        // console.log(navigate)
+        // this.props.dispatch({
+        //     type:'ADD_PROPS_NAVIGATE',
+        //     navigate:navigate
+        // })
         return (
             <ImageBackground source={Background}   style={{flex:1}}>
                 <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#18a58c4f', '#1aa98f7a','#2bb3b77d','#30c9cea1','#28d2d8a3','#1ecdd2c7','#1ecdd2db','#19c0c5','#19c0c5']} style={styles.container}>
@@ -34,7 +41,14 @@ const {height:HEIGHT} = Dimensions.get('window')
         )
     }
 }
-export default connect()(Home)
+const mapStateToProps = (state) => ({
+    ...state
+})
+
+const mapDispatchToProps = {
+    setNavigate:Navigate.getNavigate
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
 const styles = StyleSheet.create({
     logo:{
         width:HEIGHT/4,

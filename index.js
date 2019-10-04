@@ -6,8 +6,14 @@ import {name as appName} from './app.json';
 import {AppRegistry,Text,View,Button,TouchableOpacity,StatusBar} from 'react-native'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import * as serviceWorker from './serviceWorker';
+import configureStore from './src/store';
+import configureSocket from './src/store/socket/socket';
+const store = configureStore();
+export const socket = configureSocket(store.dispatch);
 
-import store from './src/redux/store/store'
+
+// import store from './src/redux/store/store'
 import {Provider} from 'react-redux'
 import {Index} from './src/screen/Index/index'
 import {Login} from './src/screen/User/Login/index'

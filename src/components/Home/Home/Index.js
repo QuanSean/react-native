@@ -15,6 +15,8 @@ class Index extends Component {
     }
     render() {
         // const {navigate} = this.props.navigation;
+        console.log ("aaa")
+        console.log(this.props.navigate.navigate)
         
         return (
 
@@ -26,7 +28,7 @@ class Index extends Component {
                     renderItem={({Card}) => <CardItem/>}
                 />
                 {/* <TouchableOpacity style={styles.buttonStyle} onPress={this.props.createProject}> */}
-                <TouchableOpacity style={styles.buttonStyle} onPress={()=>this.props.navigate(('NewProject'))}>
+                <TouchableOpacity style={styles.buttonStyle} onPress={()=>this.props.navigate.navigate(('NewProject'))}>
 
                         <ImageBackground  source={iconAdd} style={{width:25, height:25}} />
                     
@@ -35,10 +37,9 @@ class Index extends Component {
         )
     }
 }
-function mapStateToProps(state)
-{
-    return {navigate:state.navigate}
-}
+const mapStateToProps = (state) => ({
+    ...state
+})
 export default connect(mapStateToProps)(Index);
 var styles= StyleSheet.create({
     buttonStyle:{
