@@ -1,5 +1,6 @@
 import { URL } from "../common/connection";
 import axios from 'axios'
+import {AsyncStorage} from 'react-native';
 
 export const MAKE_FROM_BODY = (body) => {
   let formBody = [];
@@ -13,13 +14,22 @@ export const MAKE_FROM_BODY = (body) => {
 }
 
 export const FETCH = (method, extURL, formBody) => {
+    var token='';
+    AsyncStorage.getItem('token',(err, value)=>{
+        if (value)
+        {
+           token=value
+        //    console.log("fetch"+token)
+        }
+    } );
+    console.log("token: "+token)
   return formBody ?
     fetch(URL.SERVER.DEV + extURL, {
       method: method,
       headers: {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/json',
-        'token': localStorage.getItem('token')
+        'token': token
       },
       body: formBody
     }) :
@@ -28,18 +38,28 @@ export const FETCH = (method, extURL, formBody) => {
       headers: {
         // 'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Type': 'application/json',
-        'token': localStorage.getItem('token')
+        'token': token
       }
     })
 }
+    var token=''
+    AsyncStorage.getItem('token',(err, value)=>{
+        if (value)
+        {
+            token=value
+        }
+    } );
 
 
 export const promiseProvider = async (sourceUrl, option) => {
   try {
+    // var token='';
+    // console.log (this.getToken())
+ 
       option = option || {}
       // const token = await AsyncStorage.getItem(FILE_USER_TOKEN)
       const header = {
-          token: localStorage.getItem('token'),
+          token: token,
           'content-type': 'application/json; charset=utf-8',
       }
       // const header = {}

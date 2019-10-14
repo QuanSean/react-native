@@ -1,6 +1,9 @@
 import { AuthenticationService } from '../../services/authentication';
 import { ERROR, AUTH_TYPES, EVENT } from './types'
 import { async } from 'q';
+import { promiseProvider } from './../../services/fetch'
+import {AsyncStorage} from 'react-native';
+
 const authenAction = (type, token, email, result) => {
     return {
         type: type,
@@ -19,7 +22,7 @@ export const login = (email, password) => {
                 res => {
                     if (!res.err) {
                         if (res.data.success) {
-                            localStorage.setItem("token", res.data.token);
+                            AsyncStorage.setItem('token', res.data.token);
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
@@ -95,7 +98,7 @@ export const getInfo = () => {
                     }
                 }
                 else {
-                    localStorage.removeItem('token');
+                    // localStorage.removeItem('token');
                     return dispatch({
                         type: AUTH_TYPES.AUTH.VERIFY,
                         payload: {
@@ -135,7 +138,7 @@ export const getHistory = (id) => {
                     //     }
                 }
                 else {
-                    localStorage.removeItem('token');
+                    // localStorage.removeItem('token');
                     return dispatch({
                         type: AUTH_TYPES.AUTH.VERIFY,
                         payload: {
@@ -224,7 +227,7 @@ export const register = (email, password, name, urlImage) => {
 
 export const logout = () => {
     return (dispatch) => {
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
         return dispatch({
             type: AUTH_TYPES.AUTH.LOGOUT,
             payload: {
@@ -240,7 +243,7 @@ export const verify = () => {
     return (dispatch) => {
         AuthenticationService.verify()
             .then(res => {
-                // console.log(res.data.success)
+
                 if (!res.err) {
                     if (res.data.success) {
                         // console.log (res.data)
@@ -253,7 +256,8 @@ export const verify = () => {
                         })
                     }
                     else {
-                        localStorage.removeItem('token');
+                        
+                        // localStorage.removeItem('token');
                         return dispatch({
                             type: AUTH_TYPES.AUTH.VERIFY,
                             payload: {
@@ -263,7 +267,8 @@ export const verify = () => {
                     }
                 }
                 else {
-                    localStorage.removeItem('token');
+                        
+                    // localStorage.removeItem('token');
                     return dispatch({
                         type: AUTH_TYPES.AUTH.VERIFY,
                         payload: {

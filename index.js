@@ -1,42 +1,47 @@
-/*
+/**
  * @format
  */
-import React, { Component } from 'react'
+
+import React, { Component } from 'react';
+import {AppRegistry} from 'react-native';
+import App from './App';
 import {name as appName} from './app.json';
-import {AppRegistry,Text,View,Button,TouchableOpacity,StatusBar} from 'react-native'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import * as serviceWorker from './serviceWorker';
-import configureStore from './src/store';
-import configureSocket from './src/store/socket/socket';
+import configureStore from './src/store/index';
+import { Provider } from 'react-redux';
 const store = configureStore();
-export const socket = configureSocket(store.dispatch);
 
 
-// import store from './src/redux/store/store'
-import {Provider} from 'react-redux'
-import {Index} from './src/screen/Index/index'
-import {Login} from './src/screen/User/Login/index'
-import {PressInfoClient} from './src/screen/Client/PressInfo/index'
-import {Home} from './src/screen/Home/index'
-import NewProject from './src/screen/Project/NewProject/NewProject'
-const AppNavigator = createStackNavigator(
+// import { View, Text } from 'react-native';
+// class HomeScreen extends React.Component {
+//     render() {
+//       return (
+//         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+//           <Text>Home Screen</Text>
+//         </View>
+//       );
+//     }
+//   }
+  import Index from './src/screen/Index/Index'
+  import Login from './src/screen/User/Login/Login'
+  import Home from './src/screen/Home/Home'
+
+
+  const AppNavigator = createStackNavigator(
     {
       Index: Index,
-      Home:Home,
-      Login: Login,
-      PressInfo:PressInfoClient,
-      NewProject:NewProject
+      Login:Login,
+      Home:Home
     },
     {
       // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
       initialRouteName: 'Index',headerMode: 'none',          
     }
   );
-const AppContainer = createAppContainer(AppNavigator);
-// StatusBar.setHidden(true);
+  const AppContainer = createAppContainer(AppNavigator);
 
-export default class index extends Component {
+  export default class index extends Component {
 
     render() {
     return(

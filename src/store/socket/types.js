@@ -1,29 +1,40 @@
 const GAME_TYPES = {
-  GAME: {
-    JOIN: "joinRoom",
-    NEW_PLAYER: "newPlayer",
-    START: "startGame",
-    BEGIN: "beginGame",
-    NEW_QUESTION: "newQuestion",
-    NEXT_QUESTION: "nextQuestion",
-    END: "endGame",
-    LEAVE: "leaveRoom",
-    KICK: "kickPlayer",
-    ANSWER: "answerQuest",
-    SCOREBOARD: "scoreBoard",
-    TIMEOUT: "questTimeOut",
-    CORRECT_ANSWER: "questCorrectAnswer"
+  ROOM: {
+    FIND: "ROOM/FIND",
+    FOUND: "ROOM/FOUND",
+    CREATE: "ROOM/CREATE",
+    START: "ROOM/START_GAME",
+    NEW_PLAYER: "ROOM/NEW_PLAYER",
+    LEAVE: "ROOM/LEAVE",
+    END: "ROOM/END_GAME",
+    TITLE: "ROOM/TITLE",
+  },
+  PLAYER: {
+    SET_USERNAME: "PLAYER/SET_USERNAME",
+    ROLE: "PLAYER/ROLE",
+    VOTE: "PLAYER/VOTE",
+    USE_SKILL: "PLAYER/USE_SKILL",
+    DEAD: "PLAYER/DEAD",
+    CHAT: "PLAYER/CHAT",
+  },
+  EVENT: {
+    SHIFT: {
+      CHANGE: 'SHIFT/CHANGE',
+      DAY: 'SHIFT/DAY',
+      NIGHT: 'SHIFT/NIGHT'
+    },
+    VOTE_KILL: "EVENT/VOTE_KILL",
+    WOLF_VOTE: "EVENT/VOTE_WOLF",
+    FREE_TIME: "EVENT/FREE_TIME",
+    WAKE_UP: "EVENT/WAKE_UP",
+    DEBATE: "EVENT/DEBATE"
   },
   STATUS: {
-    RESET: 'GAME/RESET_STATUS',
-    SUCCESS: 'GAME/SUCCESS',
-    FAIL: 'GAME/FAIL'
+    SUCCESS: "SUCCESS",
+    FAIL: "FAIL"
   },
   ERROR: {
-    WRONG_CODE: "wrongCode",
-    DUPLICATE: "duplicate",
-    NOT_EXIST: "notExist",
-    UNAUTHORIZED: "UnAuthorized"
+    NOT_EXIST: "NOT_EXIST"
   }
 }
-export default GAME_TYPES;
+export default GAME_TYPES

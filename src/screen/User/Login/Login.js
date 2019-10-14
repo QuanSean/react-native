@@ -1,17 +1,77 @@
 import React, { Component } from 'react'
 import {View, Text,Image,ImageBackground,StyleSheet,TextInput,Dimensions} from 'react-native'
-import Icon from 'react-native-vector-icons'
 import IconUser from '../../../Images/user.png'
 import IconLock from '../../../Images/lock.png'
 import Background from '../../../Images/background1.jpg'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { connect } from 'react-redux'
+import {AsyncStorage} from 'react-native';
+import * as authAction from '../../../store/auth/action';
+
 const {width:WIDTH} = Dimensions.get('window')
-export default class Login extends Component {
-    console(){
-        console.log("AAAAAAAAAAAAAA")
+ class Login extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '', 
+            password:'',            
+            submited:false,
+            login:false};
+    }
+    componentWillMount = () => {
+         AsyncStorage.getItem('token',(err, value)=>{
+             if (value)
+             {
+                this.props.verify();
+                // console.log (value)
+             }
+         } );
+      };
+
+      submit=()=>{
+        var {password, email} = this.state
+        if (password.length>0&&email.length>0)
+        {      
+            this.props.changeStatusRunning(true);
+            this.props.login(email,password);
+            this.setState({
+                submited: true
+              })
+            setTimeout(() =>{
+                this.setState({
+                  submited: false
+                })
+              },1000);
+        }
+        else
+        {
+            alert('Vui lòng nhập đầy đủ thông tin')
+        }
     }
     render() {
-
+        const { submited } = this.state;
+        const { result, running } = this.props.user;
+        // console.log (result)
+        const {navigate} = this.props.navigation;
+        if (submited && !running)
+        {
+            if (result)
+            {
+                navigate('Home')
+            }
+            else
+            {
+                alert("Bạn đã nhập sai tên hoặc mật khẩu")
+            }
+        }
+        console.log (this.props.user)
+        if (this.props.user.token)
+        {
+            // let { from } = this.props.location.state || { from: { pathname: "/dashboard" } };
+            // return <Redirect to={from} />
+            navigate('Home')
+        }
+        // AsyncStorage.setItem('key', "quan");
         return (
             <ImageBackground source={Background}  style={styles.loginBackgroundContainer}>
                 <View style={styles.loginContainerView}>
@@ -20,15 +80,15 @@ export default class Login extends Component {
                         <Text style={styles.textLogo}>BAMBOO QUEST</Text>
                     </View>
                     <View style={styles.loginView}>
-                        <TextInput style={styles.loginInputLogo} placeholder={'Tên đăng nhập'} placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
+                        <TextInput style={styles.loginInputLogo} placeholder={'Email'} onChangeText={(email) => this.setState({email})} value={this.state.email}  placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
                         <Image  source={IconUser} style={styles.loginIconAuth} />
                     </View>
                     <View  style={styles.loginView}>
-                        <TextInput secureTextEntry={true} style={styles.loginInputLogo} placeholder={'Mật khẩu'} placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
+                        <TextInput secureTextEntry={true} style={styles.loginInputLogo} placeholder={'Mật khẩu'} onChangeText={(password) => this.setState({password})} value={this.state.password}  placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
                         <Image  source={IconLock} style={styles.loginIconAuth} />
                     </View>
                     <View  style={styles.loginView}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate({routeName: 'Home', transitionStyle: 'inverted'})} style={styles.loginBtnLogin} >
+                        <TouchableOpacity onPress={this.submit} style={styles.loginBtnLogin} >
                             <Text  style={{fontSize:20,color:"#fff"}}>Đăng nhập</Text>
                         </TouchableOpacity>
                     </View>
@@ -38,9 +98,23 @@ export default class Login extends Component {
                 </View>
             </ImageBackground>
         )
-
     }
 }
+const mapStateToProps = (state) => ({
+    ...state
+  })
+  
+
+const mapDispatchToProps = {
+  changeStatusRunning: authAction.changeStatusRunning,
+  resetResult: authAction.resetResult,
+  login: authAction.login,
+  verify:authAction.verify
+}
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)
 const styles = StyleSheet.create({
     
     loginBackgroundContainer: {

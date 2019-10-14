@@ -111,7 +111,6 @@ export const AuthenticationService = {
   } 
   },
   verify:async()=>{
-
     try {
       let res = await promiseProvider('account/verify', {
           method: 'POST'
