@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { ImageBackground, StyleSheet, Dimensions, TouchableOpacity, Text, Image, View } from 'react-native'
-import Background from '../../Images/background6.jpg'
+// import Background from '../../Images/background6.jpg'
 import LinearGradient from 'react-native-linear-gradient';
-import Logo from '../../Images/logo.png'
+// import Logo from '../../Images/logo.png'
 import { connect } from 'react-redux'
-
+import {Images} from './../../assets/Images/index'
 const { width: WIDTH } = Dimensions.get('window')
 const { height: HEIGHT } = Dimensions.get('window')
 import {AsyncStorage} from 'react-native';
@@ -22,7 +22,7 @@ class Index extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <ImageBackground source={Background} style={{ flex: 1 }}>
+            <ImageBackground source={Images.Background} style={{ flex: 1 }}>
                 {/* <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#18a58c4f', '#1aa98f7a','#2bb3b77d','#30c9cea1','#28d2d8a3','#1ecdd2c7','#1ecdd2db','#19c0c5','#19c0c5']} style={styles.container}>
                     <ImageBackground source={Logo} style={styles.logo} />
                     <TouchableOpacity onPress={() => navigate('PressInfo')} style={styles.buttonPlay}>
@@ -33,7 +33,7 @@ class Index extends Component {
                     </TouchableOpacity>
                 </LinearGradient> */}
                 <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} colors={['#18a58c4f', '#1aa98f7a', '#2bb3b77d', '#30c9cea1', '#28d2d8a3', '#1ecdd2c7', '#1ecdd2db', '#19c0c5', '#19c0c5']} style={styles.container}>
-                    <ImageBackground source={Logo} style={styles.logo} />
+                    <ImageBackground source={Images.Logo} style={styles.logo} />
                     <TouchableOpacity onPress={() => navigate('Login')} style={styles.buttonPlay}>
                         <Text style={{ color: '#18a58c8a', fontWeight: 'bold', fontSize: 17 }}>ĐĂNG NHẬP</Text>
                     </TouchableOpacity>

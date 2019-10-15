@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import {View, Text,Image,ImageBackground,StyleSheet,TextInput,Dimensions} from 'react-native'
-import IconUser from '../../../Images/user.png'
-import IconLock from '../../../Images/lock.png'
-import Background from '../../../Images/background1.jpg'
+import {Images} from './../../../assets/Images/index'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import {AsyncStorage} from 'react-native';
@@ -73,7 +71,7 @@ const {width:WIDTH} = Dimensions.get('window')
         }
         // AsyncStorage.setItem('key', "quan");
         return (
-            <ImageBackground source={Background}  style={styles.loginBackgroundContainer}>
+            <ImageBackground source={Images.BackgroundLogin}  style={styles.loginBackgroundContainer}>
                 <View style={styles.loginContainerView}>
                     <View style={styles.logoContnet} >
                         <Image style={styles.logo} /> 
@@ -81,11 +79,11 @@ const {width:WIDTH} = Dimensions.get('window')
                     </View>
                     <View style={styles.loginView}>
                         <TextInput style={styles.loginInputLogo} placeholder={'Email'} onChangeText={(email) => this.setState({email})} value={this.state.email}  placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
-                        <Image  source={IconUser} style={styles.loginIconAuth} />
+                        <Image  source={Images.IconUser} style={styles.loginIconAuth} />
                     </View>
                     <View  style={styles.loginView}>
                         <TextInput secureTextEntry={true} style={styles.loginInputLogo} placeholder={'Mật khẩu'} onChangeText={(password) => this.setState({password})} value={this.state.password}  placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent'/>
-                        <Image  source={IconLock} style={styles.loginIconAuth} />
+                        <Image  source={Images.IconLockL} style={styles.loginIconAuth} />
                     </View>
                     <View  style={styles.loginView}>
                         <TouchableOpacity onPress={this.submit} style={styles.loginBtnLogin} >
