@@ -53,6 +53,87 @@ export const login = (email, password) => {
             )
     }
 }
+export const loginFB = (accountIdFb) => {
+    return async (dispatch) => {
+        let loginuser = AuthenticationService.loginFb(accountIdFb);
+        loginuser
+            .then(
+                res => {
+                    console.log (res)
+                    if (!res.err) {
+                        if (res.data.success) {
+                            AsyncStorage.setItem('token', res.data.token);
+                            return dispatch({
+                                type: AUTH_TYPES.AUTH.LOGIN,
+                                payload: {
+                                    result: res.data.success
+                                }
+                            })
+                        }
+                        else {
+                            return dispatch({
+                                type: AUTH_TYPES.AUTH.LOGIN,
+                                payload: {
+                                    result: false
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        dispatch({
+                            type: AUTH_TYPES.AUTH.LOGIN,
+                            payload: {
+                                result: false,
+                                token: '',
+                                email: ''
+                            }
+                        })
+                    }
+                }
+            )
+    }
+}
+
+export const registerFB = (email, fullName,accessTokenFb,accountIdFb) => {
+    return async (dispatch) => {
+        let loginuser = AuthenticationService.registerFB(email, fullName,accessTokenFb,accountIdFb);
+        loginuser
+            .then(
+                res => {
+                    console.log(res)
+                    if (!res.err) {
+                        if (res.data.success) {
+                            return dispatch({
+                                type: AUTH_TYPES.AUTH.LOGIN,
+                                payload: {
+                                    result: res.data.success
+                                }
+                            })
+                        }
+                        else {
+                            return dispatch({
+                                type: AUTH_TYPES.AUTH.LOGIN,
+                                payload: {
+                                    result: false
+                                }
+                            });
+                        }
+                    }
+                    else {
+                        dispatch({
+                            type: AUTH_TYPES.AUTH.LOGIN,
+                            payload: {
+                                result: false,
+                                token: '',
+                                email: ''
+                            }
+                        })
+                    }
+                }
+            )
+    }
+}
+
 export const resetResult = () => {
     return dispatch => {
         dispatch({
@@ -81,6 +162,8 @@ export const getInfo = () => {
             .then(res => {
                 if (!res.err) {
                     if (res.data.success) {
+                        // console.log (res.data.detail)
+
                         return dispatch({
                             type: AUTH_TYPES.AUTH.INFO,
                             payload: {
@@ -191,43 +274,51 @@ export const register = (email, password, name, urlImage) => {
                 }
             )
     }
-    // return (dispatch) => {
-    //     AuthenticationService.register(email, password, name, urlImage)
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             if (!res.success) {
-    //                 return dispatch({
-    //                     type: AUTH_TYPES.AUTH.REGISTER,
-    //                     payload: {
-    //                         running: false,
-    //                         result: false
-    //                     }
-    //                 })
-    //             } else {
-    // return dispatch({
-    //     type: AUTH_TYPES.AUTH.REGISTER,
-    //     payload: {
-    //         running: false,
-    //         result: res.success
-    //     }
-    // })
-    //             }
-    //         })
-    //         .catch(() => {
-    //             return dispatch({
-    //                 type: AUTH_TYPES.AUTH.REGISTER,
-    //                 payload: {
-    //                     result: false,
-    //                     running: false
-    //                 }
-    //             })
-    //         });
-    // }
 }
+
+// export const register = (email, password, name, urlImage) => {
+//     return async (dispatch) => {
+//         let registeruser = AuthenticationService.register(email, password, name, urlImage);
+//         registeruser
+//             .then(
+//                 res => {
+//                     if (!res.err) {
+//                         if (res.data.success) {
+//                             return dispatch({
+//                                 type: AUTH_TYPES.AUTH.REGISTER,
+//                                 payload: {
+//                                     running: false,
+//                                     result: true
+//                                 }
+//                             })
+//                         }
+//                         else {
+//                             return dispatch({
+//                                 type: AUTH_TYPES.AUTH.REGISTER,
+//                                 payload: {
+//                                     running: false,
+//                                     result: false
+//                                 }
+//                             });
+//                         }
+//                     }
+//                     else {
+//                         dispatch({
+//                             type: AUTH_TYPES.AUTH.REGISTER,
+//                             payload: {
+//                                 result: false,
+//                                 running: false
+//                             }
+//                         })
+//                     }
+//                 }
+//             )
+//     }
+// }
 
 export const logout = () => {
     return (dispatch) => {
-        // localStorage.removeItem("token");
+        AsyncStorage.removeItem("token");
         return dispatch({
             type: AUTH_TYPES.AUTH.LOGOUT,
             payload: {
@@ -239,13 +330,15 @@ export const logout = () => {
     }
 }
 
-export const verify = () => {
-    return (dispatch) => {
-        AuthenticationService.verify()
-            .then(res => {
 
+export const verify =  () => {
+    return (dispatch) => {
+         AuthenticationService.verify()
+            .then(res => {
+                // console.log(res.err)
                 if (!res.err) {
                     if (res.data.success) {
+
                         // console.log (res.data)
                         // localStorage.setItem("email", res.info.email);
                         return dispatch({
@@ -277,33 +370,88 @@ export const verify = () => {
                     })
                 }
 
-                // if (!res.result) {
-                // localStorage.removeItem('token');
-                // return dispatch({
-                //     type: AUTH_TYPES.AUTH.VERIFY,
-                //     payload: {
-                //         ...res
-                //     }
-                // })
-                // } else {
-                // localStorage.setItem("email", res.info.email);
-                // return dispatch({
-                //     type: AUTH_TYPES.AUTH.VERIFY,
-                //     payload: {
-                //         ...res
-                //     }
-                // })
-                // }
             })
-        // .catch(() => {
-        // localStorage.removeItem('token');
-        // return dispatch({
-        //     type: AUTH_TYPES.AUTH.VERIFY,
-        //     payload: {
-        //         result: false
-        //     }
-        // })
-        // });
+        
+    }
+}
+
+
+export const getKey =  (email) => {
+    return (dispatch) => {
+         AuthenticationService.getKey(email)
+            .then(res => {
+                console.log(res.data)
+                if (!res.err) {
+                    if (res.data.result) {
+                        return dispatch({
+                            type: AUTH_TYPES.GETKEY,
+                            payload: {
+                                key:true
+                            }
+                        })
+                    }
+                    else {
+                        
+                        return dispatch({
+                            type: AUTH_TYPES.GETKEY,
+                            payload: {
+                                key:false
+                            }
+                        })
+                    }
+                }
+                else {
+                        
+                    // localStorage.removeItem('token');
+                    return dispatch({
+                        type: AUTH_TYPES.AUTH.VERIFY,
+                        payload: {
+                            result: false
+                        }
+                    })
+                }
+
+            })
+        
+    }
+}
+export const changePassword =  (email,pass,key) => {
+    return (dispatch) => {
+         AuthenticationService.changPassWord(email,pass,key)
+            .then(res => {
+                console.log(res.data)
+                if (!res.err) {
+                    if (res.data.result) {
+                        return dispatch({
+                            type: AUTH_TYPES.GETKEY,
+                            payload: {
+                                key:true
+                            }
+                        })
+                    }
+                    else {
+                        
+                        return dispatch({
+                            type: AUTH_TYPES.GETKEY,
+                            payload: {
+                                key:false
+                            }
+                        })
+                    }
+                }
+                else {
+                        
+                    // localStorage.removeItem('token');
+                    return dispatch({
+                        type: AUTH_TYPES.AUTH.VERIFY,
+                        payload: {
+                            result: false
+                        }
+                    })
+                }
+
+            })
+        
     }
 }
 

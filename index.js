@@ -26,17 +26,20 @@ const store = configureStore();
   import Index from './src/screen/Index/Index'
   import Login from './src/screen/User/Login/Login'
   import Home from './src/screen/Home/Home'
+  // import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
+  import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
 
 
   const AppNavigator = createStackNavigator(
     {
       Index: Index,
       Login:Login,
-      Home:Home
+      Home:Home,
+      ForgotPassword:ForgotPassword
     },
     {
       // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
-      initialRouteName: 'Index',headerMode: 'none',          
+      initialRouteName: 'Login',headerMode: 'none',          
     }
   );
   const AppContainer = createAppContainer(AppNavigator);

@@ -3,11 +3,12 @@ import { AUTH_TYPES, EVENT } from "./types";
 
 let initialState = {
   token: '',
-  info: {email:""},
+  info: {},
   running: false,
   result: false,
   history:[],
-  runhistory:true
+  runhistory:true,
+  key:false
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -48,6 +49,18 @@ export const authReducer = (state = initialState, action) => {
     state = {
       ...state,
       info: { ...action.payload.info }
+    }
+    break;
+    case AUTH_TYPES.AUTH.INFO: 
+    state = {
+      ...state,
+      info: { ...action.payload.info }
+    }
+    break;
+    case AUTH_TYPES.GETKEY:
+    state={
+      ...state,
+      key:action.payload.key
     }
     break;
     case AUTH_TYPES.AUTH.HISTORY: 

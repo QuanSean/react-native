@@ -22,7 +22,7 @@ export const FETCH = (method, extURL, formBody) => {
         //    console.log("fetch"+token)
         }
     } );
-    console.log("token: "+token)
+    // console.log("token: "+token)
   return formBody ?
     fetch(URL.SERVER.DEV + extURL, {
       method: method,
@@ -42,20 +42,24 @@ export const FETCH = (method, extURL, formBody) => {
       }
     })
 }
-    var token=''
-    AsyncStorage.getItem('token',(err, value)=>{
-        if (value)
-        {
-            token=value
-        }
-    } );
+// var token=''
+// AsyncStorage.getItem('token',(err, value)=>{
+//     if (value)
+//     {
+//         token=value
+//     }
+// } );
 
 
 export const promiseProvider = async (sourceUrl, option) => {
   try {
     // var token='';
     // console.log (this.getToken())
- 
+        var token = await AsyncStorage.getItem('token');
+        console.log ("token axios: "+token)
+        
+
+
       option = option || {}
       // const token = await AsyncStorage.getItem(FILE_USER_TOKEN)
       const header = {

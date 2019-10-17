@@ -9,7 +9,8 @@ export const AUTH_TYPES = {
   },
   DELETE: 'USER/DELETE',
   GET: 'USER/GET_INFO',
-  UPDATE: 'USER/UPDATE'
+  UPDATE: 'USER/UPDATE',
+  GETKEY:'USER/GETKEY'
 }
 
 export const ERROR = {
