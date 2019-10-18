@@ -1,5 +1,5 @@
 //reducer user
-import { AUTH_TYPES, EVENT } from "./types";
+import { AUTH_TYPES, EVENT,LANGUAGE } from "./types";
 
 let initialState = {
   token: '',
@@ -10,7 +10,8 @@ let initialState = {
   runhistory:true,
   key:false,
   verify:false,
-  ve:false
+  ve:false,
+  vi:true
   // v:false
 };
 
@@ -90,6 +91,12 @@ export const authReducer = (state = initialState, action) => {
       runhistory:false
     }
     break;
+    case LANGUAGE.LANGUAGE:
+      state={
+        ...state,
+        vi:!state.vi
+      }
+     break; 
     case AUTH_TYPES.AUTH.V: 
     state = {
       ...state,

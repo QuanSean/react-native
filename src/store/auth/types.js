@@ -24,3 +24,6 @@ export const EVENT = {
   RUNNING: 'RUNNING',
   RESULT: 'RESET_RESULT'
 }
+export const LANGUAGE = {
+  LANGUAGE: 'LANGUAGE'
+}

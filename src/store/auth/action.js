@@ -1,5 +1,5 @@
 import { AuthenticationService } from '../../services/authentication';
-import { ERROR, AUTH_TYPES, EVENT } from './types'
+import { ERROR, AUTH_TYPES, EVENT,LANGUAGE } from './types'
 import { async } from 'q';
 import { promiseProvider } from './../../services/fetch'
 import {AsyncStorage} from 'react-native';
@@ -327,6 +327,7 @@ export const register = (email, password, name, urlImage) => {
 export const logout = () => {
     return (dispatch) => {
         AsyncStorage.removeItem("token");
+       
         return dispatch({
             type: AUTH_TYPES.AUTH.LOGOUT,
             payload: {
@@ -477,4 +478,17 @@ export const changePassword =  (email,pass,key) => {
 
 export const resetToken = () => {
     return authenAction(AUTH_TYPES.LOGIN, null, null, false)
+}
+
+
+
+
+
+export const vi=()=>{
+    return dispatch => {
+        dispatch({
+            type: LANGUAGE.LANGUAGE,
+            
+        })
+    }
 }
