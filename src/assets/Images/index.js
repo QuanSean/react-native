@@ -4,7 +4,8 @@ export const Images ={
     BackgroundLogin:require('./background1.jpg'),
     IconUser :require('./user.png'),
     IconLockL:require('./lock.png'),
-    LogoFb:require('./logofb.png')
+    LogoFb:require('./logofb.png'),
+    ICMENU:require('./ic_menu.png')
 
 }
 

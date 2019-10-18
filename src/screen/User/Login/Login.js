@@ -27,6 +27,7 @@ class Login extends Component {
                 // console.log (value)
             }
         });
+        console.log ("aaaaaa")
     };
     makeEmail(length) {
         var result = '';
@@ -57,20 +58,31 @@ class Login extends Component {
                 reject('ERROR GETTING DATA FROM FACEBOOK')
             })
     }
-
+    componentDidMount(){
+        this._signInAsync(this.props.user.result)
+        console.log ()
+    }
+    _signInAsync = async () => {
+        if (this.props.user.result)
+        {
+            this.props.navigation.navigate('Home');
+        };
+    }
     submit = () => {
+        // console.log ("aaaa")
         var { password, email } = this.state
         if (password.length > 0 && email.length > 0) {
-            this.props.changeStatusRunning(true);
-            this.props.login(email, password);
-            this.setState({
-                submited: true
-            })
-            setTimeout(() => {
-                this.setState({
-                    submited: false
-                })
-            }, 1000);
+            // this.props.changeStatusRunning(true);
+            // this.props.login(email, password); 
+            // this.setState({
+            //     submited: true
+            // })
+            // setTimeout(() => {
+            //     this.setState({
+            //         submited: false
+            //     })
+            // }, 1000);
+            this.props.login (email,password)
         }
         else {
             alert('Vui lòng nhập đầy đủ thông tin')
@@ -99,12 +111,17 @@ class Login extends Component {
             }
         )
     }
+
     render() {
-        console.log(this.state.facebook)
+        // console.log (this.props.user.result)
+        const { navigate } = this.props.navigation;
+        if (this.props.user.result)
+        {
+            navigate("Home")
+        }
         const { submited } = this.state;
         const { result, running } = this.props.user;
         // console.log (result)
-        const { navigate } = this.props.navigation;
         if (submited && !running) {
             if (result) {
                 navigate('Home')
@@ -112,10 +129,6 @@ class Login extends Component {
             else {
                 alert("Bạn đã nhập sai tên hoặc mật khẩu")
             }
-        }
-        // console.log (this.props.user)
-        if (this.props.user.token) {
-            navigate('Home')
         }
         return (
             <View style={styles.loginContainerView}>
@@ -213,7 +226,8 @@ const mapDispatchToProps = {
     login: authAction.login,
     verify: authAction.verify,
     registerFB: authAction.registerFB,
-    loginFB: authAction.loginFB
+    loginFB: authAction.loginFB,
+    
 }
 export default connect(
     mapStateToProps,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ImageBackground, StyleSheet, Dimensions, TouchableOpacity, Text, Image, View } from 'react-native'
+import { ImageBackground, StyleSheet, Dimensions, TouchableOpacity, Text, Image, View,ActivityIndicator,StatusBar } from 'react-native'
 // import Background from '../../Images/background6.jpg'
 import LinearGradient from 'react-native-linear-gradient';
 // import Logo from '../../Images/logo.png'
@@ -12,102 +12,82 @@ import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import * as authAction from '../../store/auth/action';
 
 class Index extends Component {
-    UNSAFE_componentWillMount = () => {
-        AsyncStorage.getItem('token', (err, value) => {
-            if (value) {
-                // this.props.verify();
-                console.log(value)
-            }
-        });
-    }
-    makeEmail(length) {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-           result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    constructor(props) {
+        super(props)
+        this.state = {
+            a: ''
         }
-        return result;
-     }
-    initUser(token,userID) {
-        fetch('https://graph.facebook.com/v2.5/me?fields=email,name,picture,friends&access_token=' + token)
-            .then((response) => response.json())
-            .then((json) => {
-                // console.log ("okoko")
-
-                if (json.email)
-                {
-                    this.props.registerFB(json.email,json.name,token,userID)
-                    this.props.loginFB(userID)
-                }
-                else
-                {
-                    this.props.registerFB(this.makeEmail(10),json.name,token,userID)
-                    this.props.loginFB(userID)
-                }
-                
-            })
-            .catch(() => {
-                reject('ERROR GETTING DATA FROM FACEBOOK')
-            })
     }
+    componentDidMount() {
+        this._bootstrapAsync();
+      }
+    
+      // Fetch the token from storage then navigate to our appropriate place
+      _bootstrapAsync = async () => {
+        const userToken = await AsyncStorage.getItem('token');
+        this.props.navigation.navigate(userToken ? 'Home' : 'Login');
+      };
+    // UNSAFE_componentWillMount = () => {
+
+    //     AsyncStorage.getItem('token', (err, value) => {
+
+    //         this.props.changeStatusRunning(true)
+    //         if (value) {
+    //             // console.log(value)
+    //             this.props.verify()
+
+    //         }
+    //         else {
+    //             this.props.changeVe()
+    //         }
+    //     });
+
+    // }
     render() {
-        const { navigate } = this.props.navigation;
+        console.log ("INDEX")
+        // const { navigate } = this.props.navigation;
+        // if (this.props.user.running)
+        // {
+        //     console.log(this.props.user.ve)
+        //     if (this.props.user.ve)
+        //     {
+
+        //         // console.log (this.props.user.email)
+        //         if(this.props.user.email)
+        //         {
+        //             navigate('Home')
+        //             console.log ("HOME")
+        //         }
+        //         else
+        //         {
+        //             navigate('Login')
+        //             console.log ("LGOUN")
+        //         }
+        //     }
+        // }
+        
         return (
-            <ImageBackground source={Images.Background} style={{ flex: 1 }}>
-                {/* <LinearGradient start={{x: 0, y: 0}} end={{x: 0, y: 1}} colors={['#18a58c4f', '#1aa98f7a','#2bb3b77d','#30c9cea1','#28d2d8a3','#1ecdd2c7','#1ecdd2db','#19c0c5','#19c0c5']} style={styles.container}>
-                    <ImageBackground source={Logo} style={styles.logo} />
-                    <TouchableOpacity onPress={() => navigate('PressInfo')} style={styles.buttonPlay}>
-                        <Text style={{color:'#18a58c8a',fontWeight: 'bold', fontSize:17}}>CHƠI NGAY</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate('Login')} style={styles.buttonLogin}>
-                        <Text style={{color:'#fff',fontWeight: 'bold', fontSize:15}}>LOGIN</Text>
-                    </TouchableOpacity>
-                </LinearGradient> */}
-
-                <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} colors={['#18a58c4f', '#1aa98f7a', '#2bb3b77d', '#30c9cea1', '#28d2d8a3', '#1ecdd2c7', '#1ecdd2db', '#19c0c5', '#19c0c5']} style={styles.container}>
-                    <ImageBackground source={Images.Logo} style={styles.logo} />
-                    <TouchableOpacity onPress={() => navigate('Login')} style={styles.buttonPlay}>
-                        <Text style={{ color: '#18a58c8a', fontWeight: 'bold', fontSize: 17 }}>ĐĂNG NHẬP</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate('Login')} style={styles.buttonLogin}>
-                        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 15 }}>Đăng nhập bằng facebook</Text>
-                    </TouchableOpacity>
-                    <LoginButton
-                        publishPermissions={['publish_actions']}
-                        readPermissions={['public_profile']}
-                        onLoginFinished={
-                            (error, result) => {
-                                if (error) {
-                                    console.log("login has error: " + result.error);
-                                } else if (result.isCancelled) {
-                                    console.log("login is cancelled.");
-                                } else {
-                                    AccessToken.getCurrentAccessToken().then(
-
-                                        (data) => {
-                                            const { accessToken,userID } = data
-                                            // console.log (userID)
-                                            this.initUser(accessToken,userID)
-                                            navigate('Home')
-
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                        onLogoutFinished={() => console.log("logout.")} />
-                </LinearGradient>
-            </ImageBackground>
+            <View source={Images.Background} style={{ flex: 1 }}>
+                <ActivityIndicator />
+                <StatusBar barStyle="default" />
+            </View>
         )
     }
 }
 const mapStateToProps = state => ({
+    ...state
 })
 
 const mapDispatchToProps = {
-    registerFB:authAction.registerFB,
-    loginFB:authAction.loginFB
+    changeStatusRunning: authAction.changeStatusRunning,
+    resetResult: authAction.resetResult,
+    login: authAction.login,
+    verify: authAction.verify,
+    registerFB: authAction.registerFB,
+    loginFB: authAction.loginFB,
+    changeStatusRunning: authAction.changeStatusRunning,
+    v:authAction.v,
+    changeVe:authAction.changeVe
 }
 export default connect(
     mapStateToProps,

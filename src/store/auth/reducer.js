@@ -8,19 +8,39 @@ let initialState = {
   result: false,
   history:[],
   runhistory:true,
-  key:false
+  key:false,
+  verify:false,
+  ve:false
+  // v:false
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_TYPES.AUTH.LOGIN:
-    case AUTH_TYPES.AUTH.VERIFY:
       state = {
         ...state,
         ...action.payload,
-        running: false
+        // running: false
       };
       break;
+    case AUTH_TYPES.AUTH.VERIFY:
+      {
+        state = {
+          ...state,
+          ...action.payload,
+          ve:action.payload.ve
+          // running: false
+        };
+        break;
+      }
+      case AUTH_TYPES.AUTH.CHANGEV:
+        {
+          state={
+            ...state,
+            ve:action.payload.ve
+          }
+        }
+        break;
     case AUTH_TYPES.AUTH.LOGOUT:
         state = {
           token: '',
@@ -68,6 +88,12 @@ export const authReducer = (state = initialState, action) => {
       ...state,
       history:{...action.payload.history},
       runhistory:false
+    }
+    break;
+    case AUTH_TYPES.AUTH.V: 
+    state = {
+      ...state,
+      v:action.payload.v
     }
     break;
     default:

@@ -14,6 +14,17 @@ const authenAction = (type, token, email, result) => {
         }
     }
 }
+export const v=()=>{
+    return dispatch => {
+        dispatch({
+            type: AUTH_TYPES.AUTH.V,
+            payload: {
+                v:true
+            }
+        })
+    }
+}
+
 export const login = (email, password) => {
     return async (dispatch) => {
         let loginuser = AuthenticationService.login(email, password);
@@ -21,6 +32,7 @@ export const login = (email, password) => {
             .then(
                 res => {
                     if (!res.err) {
+                        // console.log (res.data.token)
                         if (res.data.success) {
                             AsyncStorage.setItem('token', res.data.token);
                             return dispatch({
@@ -59,10 +71,10 @@ export const loginFB = (accountIdFb) => {
         loginuser
             .then(
                 res => {
-                    console.log (res)
+                    // console.log (res)
                     if (!res.err) {
                         if (res.data.success) {
-                            AsyncStorage.setItem('token', res.data.token);
+                             AsyncStorage.setItem('token', res.data.token);
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
@@ -100,7 +112,7 @@ export const registerFB = (email, fullName,accessTokenFb,accountIdFb) => {
         loginuser
             .then(
                 res => {
-                    console.log(res)
+                    // console.log(res)
                     if (!res.err) {
                         if (res.data.success) {
                             return dispatch({
@@ -232,10 +244,6 @@ export const getHistory = (id) => {
             })
     }
 }
-
-
-
-
 export const register = (email, password, name, urlImage) => {
     return async (dispatch) => {
         let registeruser = AuthenticationService.register(email, password, name, urlImage);
@@ -330,20 +338,31 @@ export const logout = () => {
     }
 }
 
-
+export const changeVe =()=>{
+    
+    return async (dispatch)=>{
+        return dispatch({
+            type: AUTH_TYPES.AUTH.CHANGEV,
+            payload: {
+                ve:true
+            }
+        })
+    }
+}
 export const verify =  () => {
-    return (dispatch) => {
+
+     return async (dispatch) => {
          AuthenticationService.verify()
             .then(res => {
+                // console.log (res)
+                // console.log(res)
                 // console.log(res.err)
                 if (!res.err) {
                     if (res.data.success) {
-
-                        // console.log (res.data)
-                        // localStorage.setItem("email", res.info.email);
                         return dispatch({
                             type: AUTH_TYPES.AUTH.VERIFY,
                             payload: {
+                                ve:true,
                                 ...res.data
                             }
                         })
@@ -354,17 +373,18 @@ export const verify =  () => {
                         return dispatch({
                             type: AUTH_TYPES.AUTH.VERIFY,
                             payload: {
+                                ve:true,
                                 ...res.data
                             }
                         })
                     }
                 }
                 else {
-                        
                     // localStorage.removeItem('token');
                     return dispatch({
                         type: AUTH_TYPES.AUTH.VERIFY,
                         payload: {
+                            ve:true,
                             result: false
                         }
                     })
@@ -380,7 +400,7 @@ export const getKey =  (email) => {
     return (dispatch) => {
          AuthenticationService.getKey(email)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (!res.err) {
                     if (res.data.result) {
                         return dispatch({
@@ -419,7 +439,7 @@ export const changePassword =  (email,pass,key) => {
     return (dispatch) => {
          AuthenticationService.changPassWord(email,pass,key)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (!res.err) {
                     if (res.data.result) {
                         return dispatch({

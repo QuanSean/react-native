@@ -29,7 +29,16 @@ const store = configureStore();
   // import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
   import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
 
-
+  const AppStack = createStackNavigator({ Home: Home },
+    {
+      // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
+      headerMode: 'none',          
+    });
+  const AuthStack = createStackNavigator({ Login: Login },
+    {
+      // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
+      headerMode: 'none',          
+    });
   const AppNavigator = createStackNavigator(
     {
       Index: Index,
@@ -39,7 +48,7 @@ const store = configureStore();
     },
     {
       // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
-      initialRouteName: 'Login',headerMode: 'none',          
+      initialRouteName: 'Index',headerMode: 'none',          
     }
   );
   const AppContainer = createAppContainer(AppNavigator);

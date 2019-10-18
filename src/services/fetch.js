@@ -56,7 +56,7 @@ export const promiseProvider = async (sourceUrl, option) => {
     // var token='';
     // console.log (this.getToken())
         var token = await AsyncStorage.getItem('token');
-        console.log ("token axios: "+token)
+        // console.log ("token axios: "+token)
         
 
 
