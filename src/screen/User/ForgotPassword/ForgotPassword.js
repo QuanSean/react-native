@@ -33,7 +33,7 @@ class ForgotPassword extends Component {
                         <View style={styles.container}>
                             <TextInput editable={false} selectTextOnFocus={false} onChangeText={(email) => this.setState({email})} value={this.state.email}  placeholder="Email" style={styles.textInput}/>
                             <TextInput onChangeText={(key) => this.setState({key})} value={this.state.key}  placeholder="Mã xác nhận" style={styles.textInput}/>
-                            <TextInput onChangeText={(password) => this.setState({password})} value={this.state.password}  placeholder="Nhập mật khẩu mới" style={styles.textInput}/>                
+                            <TextInput onChangeText={(password) => this.setState({password})} value={this.state.password} secureTextEntry={true}  placeholder="Nhập mật khẩu mới" style={styles.textInput}/>                
                             <TouchableOpacity onPress={()=>{
                                 this.props.changePassword(this.state.email, this.state.password, this.state.key)
                                 navigate('Login')

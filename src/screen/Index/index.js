@@ -18,33 +18,80 @@ class Index extends Component {
             a: ''
         }
     }
-    componentDidMount() {
-        this._bootstrapAsync();
-      }
-    
-      // Fetch the token from storage then navigate to our appropriate place
       _bootstrapAsync = async () => {
         const userToken = await AsyncStorage.getItem('token');
-        this.props.navigation.navigate(userToken ? 'Home' : 'Login');
+        console.log (userToken)
+        if (userToken)
+        { 
+            await this.props.changeVe()
+            await this.props.getInfo();
+            console.log(this.props.user.info)
+            // if (this.props.user.info.name)
+            // {
+            //     this.props.navigation.navigate('Home');
+
+            // }
+            // else
+            // {
+            //     this.props.navigation.navigate('Login');
+            // }
+        }
+        else
+        {
+            this.props.navigation.navigate('Login');
+
+        }
+        // this.props.navigation.navigate(userToken? 'Home' : 'Login');
+        console.log (this.props.user)
+
       };
     // UNSAFE_componentWillMount = () => {
-
-    //     AsyncStorage.getItem('token', (err, value) => {
-
-    //         this.props.changeStatusRunning(true)
-    //         if (value) {
-    //             // console.log(value)
-    //             this.props.verify()
-
-    //         }
-    //         else {
-    //             this.props.changeVe()
-    //         }
-    //     });
-
+    //     this._bootstrapAsync();
     // }
+    
+    UNSAFE_componentWillMount(){
+        // var {navigate}=this.props.navigation
+        // this.props.navigation.navigate(this.props.user.email ? 'Home' : 'Login');
+        this._bootstrapAsync()
+        
+    }
+    // re =async()=>{
+    //     var {navigate}=this.props.navigation
+    //     var {email}= await this.props.user
+    //     if (email)
+    //     {
+    //         navigate('Home')
+
+    //     }  
+    //     else
+    //     {
+            
+    //             navigate('Login')
+            
+
+    //     }
+    // }
+
     render() {
+        // this.re()
+        // this.props.navigation.navigate(this.props.user.email ? 'Home' : 'Login');
         console.log ("INDEX")
+        console.log (this.props.user)
+        if (this.props.user.getinfo)
+        {
+            if (this.props.user.info.name)
+            {
+                this.props.navigation.navigate("Home")
+            }
+            else
+            {
+                this.props.navigation.navigate(this.props.user.login? 'Home' : 'Login');
+
+            }
+
+        }
+        // this.props.navigation.navigate(this.props.user.email ? 'Home');
+        // this.re()
         // const { navigate } = this.props.navigation;
         // if (this.props.user.running)
         // {
@@ -87,7 +134,9 @@ const mapDispatchToProps = {
     loginFB: authAction.loginFB,
     changeStatusRunning: authAction.changeStatusRunning,
     v:authAction.v,
-    changeVe:authAction.changeVe
+    changeVe:authAction.changeVe,
+    getInfo: authAction.getInfo,
+
 }
 export default connect(
     mapStateToProps,

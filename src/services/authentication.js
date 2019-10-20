@@ -211,7 +211,6 @@ export const AuthenticationService = {
       return ({
         err: false,
         data: res.data
-
       })
       // return res.data
     } catch (error) {

@@ -11,7 +11,9 @@ let initialState = {
   key:false,
   verify:false,
   ve:false,
-  vi:true
+  vi:true,
+  getinfo:false,
+  login:false
   // v:false
 };
 
@@ -21,6 +23,7 @@ export const authReducer = (state = initialState, action) => {
       state = {
         ...state,
         ...action.payload,
+        login:action.payload.login
         // running: false
       };
       break;
@@ -49,7 +52,8 @@ export const authReducer = (state = initialState, action) => {
           running: false,
           result: false,
           history:[],
-          runhistory:true
+          runhistory:true,
+          vi:state.vi
         };
         break;
 
@@ -69,7 +73,8 @@ export const authReducer = (state = initialState, action) => {
     case AUTH_TYPES.AUTH.INFO: 
     state = {
       ...state,
-      info: { ...action.payload.info }
+      info: { ...action.payload.info },
+      getinfo:action.payload.getinfo
     }
     break;
     case AUTH_TYPES.AUTH.INFO: 

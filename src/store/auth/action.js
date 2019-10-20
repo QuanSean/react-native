@@ -38,7 +38,8 @@ export const login = (email, password) => {
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
-                                    result: res.data.success
+                                    result: res.data.success,
+                                    login:true
                                 }
                             })
                         }
@@ -46,7 +47,8 @@ export const login = (email, password) => {
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
-                                    result: false
+                                    result: false,
+                                    login:false
                                 }
                             });
                         }
@@ -57,7 +59,8 @@ export const login = (email, password) => {
                             payload: {
                                 result: false,
                                 token: '',
-                                email: ''
+                                email: '',
+                                login:false
                             }
                         })
                     }
@@ -169,6 +172,7 @@ export const changeStatusRunning = (status) => {
 }
 
 export const getInfo = () => {
+    // console.log("GET INFO")
     return async (dispatch) => {
         AuthenticationService.getInfo()
             .then(res => {
@@ -179,25 +183,28 @@ export const getInfo = () => {
                         return dispatch({
                             type: AUTH_TYPES.AUTH.INFO,
                             payload: {
-                                info: res.data.detail
+                                info: res.data.detail,
+                                getinfo:true
                             }
                         })
                     }
                     else {
-                        // return dispatch({
-                        //     type: AUTH_TYPES.AUTH.VERIFY,
-                        //     payload: {
-                        //         ...res.data.detail
-                        //     }
-                        // })
+                        return dispatch({
+                            type: AUTH_TYPES.AUTH.INFO,
+                            payload: {
+                                info:{},
+                                getinfo: true
+                            }
+                        })
                     }
                 }
                 else {
                     // localStorage.removeItem('token');
                     return dispatch({
-                        type: AUTH_TYPES.AUTH.VERIFY,
+                        type: AUTH_TYPES.AUTH.INFO,
                         payload: {
-                            result: false
+                            info:{},
+                            getinfo: true
                         }
                     })
                 }
@@ -351,12 +358,9 @@ export const changeVe =()=>{
     }
 }
 export const verify =  () => {
-
      return async (dispatch) => {
          AuthenticationService.verify()
             .then(res => {
-                // console.log (res)
-                // console.log(res)
                 // console.log(res.err)
                 if (!res.err) {
                     if (res.data.success) {

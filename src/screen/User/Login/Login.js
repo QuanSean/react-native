@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 import { AsyncStorage } from 'react-native';
 import * as authAction from '../../../store/auth/action';
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
-
+import {Languages} from './../../../languages/Languages'
+// import {Languages} from '../../languages/Languages'
 const { width: WIDTH } = Dimensions.get('window')
 class Login extends Component {
     constructor(props) {
@@ -74,19 +75,17 @@ class Login extends Component {
         if (password.length > 0 && email.length > 0) {
             // this.props.changeStatusRunning(true);
             // this.props.login(email, password); 
-            // this.setState({
-            //     submited: true
-            // })
-            // setTimeout(() => {
-            //     this.setState({
-            //         submited: false
-            //     })
-            // }, 1000);
+
+           
+
+
             this.props.login (email,password)
+            this.props.getInfo()
         }
         else {
             alert('Vui lòng nhập đầy đủ thông tin')
         }
+
     }
 
     log() {
@@ -115,10 +114,13 @@ class Login extends Component {
     render() {
         // console.log (this.props.user.result)
         const { navigate } = this.props.navigation;
-        if (this.props.user.result)
-        {
-            navigate("Home")
-        }
+         if (this.props.user.result)
+            {
+                navigate("Home")
+            }
+
+        
+
         const { submited } = this.state;
         const { result, running } = this.props.user;
         // console.log (result)
@@ -140,19 +142,20 @@ class Login extends Component {
                     <Image source={Images.IconUser} style={styles.loginIconAuth} />
                 </View>
                 <View style={styles.loginView}>
-                    <TextInput secureTextEntry={true} style={styles.loginInputLogo} placeholder={'Mật khẩu'} onChangeText={(password) => this.setState({ password })} value={this.state.password} placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent' />
+                    
+                    <TextInput secureTextEntry={true} style={styles.loginInputLogo} placeholder={this.props.user.vi?Languages.password.vi:Languages.password.en} onChangeText={(password) => this.setState({ password })} value={this.state.password} placeholderTextColor={'#b2b2b2'} underlineColorAndroid='transparent' />
                     <Image source={Images.IconLockL} style={styles.loginIconAuth} />
                 </View>
                 <View style={styles.loginView}>
                     <TouchableOpacity onPress={this.submit} style={styles.loginBtnLogin} >
-                        <Text style={{ fontSize: 20, color: "#fff" }}>Đăng nhập</Text>
+                        <Text style={{ fontSize: 20, color: "#fff" }}>{this.props.user.vi?Languages.login.vi:Languages.login.en}</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={() => { navigate('ForgotPassword') }}><Text onPress={() => { this.console() }} style={{ fontSize: 15, color: "#bcbcbc" }}>Quên  mật khẩu?</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => { navigate('ForgotPassword') }}><Text onPress={() => { this.console() }} style={{ fontSize: 15, color: "#bcbcbc" }}>{this.props.user.vi?Languages.forgotPassword.vi:Languages.forgotPassword.en}</Text></TouchableOpacity>
                 </View>
                 <View>
-                    <Text style={{color:'#bcbcbc', marginTop:10, marginBottom:15}}>..... Hoặc .....</Text>
+                    <Text style={{color:'#bcbcbc', marginTop:10, marginBottom:15}}>.........{this.props.user.vi?Languages.or.vi:Languages.or.en}...........</Text>
                 </View>
                 {/* <LoginButton
                     publishPermissions={['publish_actions']}
@@ -227,6 +230,8 @@ const mapDispatchToProps = {
     verify: authAction.verify,
     registerFB: authAction.registerFB,
     loginFB: authAction.loginFB,
+    getInfo: authAction.getInfo,
+
     
 }
 export default connect(
