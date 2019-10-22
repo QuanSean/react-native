@@ -74,7 +74,7 @@ class Info extends Component {
                     containerStyle={styles.header}
                     leftComponent={<TouchableOpacity onPress={() => this.props.navigation.goBack()}><Image source={Images.IconBack} style={{ width: 24, height: 24 }} /></TouchableOpacity>}
 
-                    centerComponent={<Text style={{ color: "#87ad14", fontWeight: "bold", fontSize: 18 }}>Bitto Solution</Text>}
+                    centerComponent={<Text style={{ color: "#87ad14", fontWeight: "bold", fontSize: 18 }}>Easy Talk</Text>}
                     rightComponent={<Image source={Images.IconC} style={{ width: 28, height: 28 }} />}
 
                 />

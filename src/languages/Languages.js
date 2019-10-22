@@ -11,5 +11,7 @@ export const Languages={
     newBook:{vi:"Sách mới", en:"New book"},
     discount:{vi:'Sách giảm giá', en:"Discount"},
     genericproducts:{vi:"Sản phẩm cùng loại", en:"Generic Products"},
-    info:{vi:"Thông tin chi tiết", en:"Infomation"}
+    info:{vi:"Thông tin chi tiết", en:"Infomation"},
+    buy:{vi:"Mua", en:"Buy"},
+    total: {vi:"Tổng", en:"Total"}
 }

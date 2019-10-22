@@ -21,12 +21,16 @@ export const Images ={
     IconCart:require('./cart.png'),
     Banner:require('./bannerbook.png'),
     Banner1:require('./bannerbook1.jpg'),
-    AvatarBook:require('./avatarbook/dacnhantam.jpg'),
-    AvatarBook1:require('./avatarbook/tony.jpg'),
-    AvatarBook2:require('./avatarbook/tuoitre.jpg'),
+    AvatarBook:require('./avatarbook/easyTask1.jpg'),
+    AvatarBook1:require('./avatarbook/easyTask2.jpg'),
+    AvatarBook2:require('./avatarbook/easyTask3.jpg'),
+    AvatarBook3:require('./avatarbook/easyTask4.jpg'),
+    AvatarBook4:require('./avatarbook/easyTask5.jpg'),
+    AvatarBook5:require('./avatarbook/easyTask.jpg'),
     IconBack:require('./images-master/appIcon/back.png'),
     IconC:require('./images-master/appIcon/cart0.png'),
     Pay:require('./pay.png'),
+
 
 
 

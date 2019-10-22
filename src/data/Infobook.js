@@ -1,16 +1,16 @@
 import {Images} from './../assets/Images/index'
 export const Infobook={
-    "title":"Đắc nhân tâm",
+    "title":"Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)",
     "images":[
         Images.AvatarBook,
         Images.AvatarBook1
     ],
     info:[
-        {"Nhà xuất bản": "Kim Đồng"},
+        {"Nhà xuất bản": "Easy Talk"},
         {"Ngày xuất bản":"12/12/2012"},
-        {"Tác giả":"Nguyễn Nhật Ánh"},
+        {"Tác giả":"Easy Talk"},
         {"Loại bìa":"Cứng"},
-        {"Số trang":200}
+        {"Số trang":150}
     ],
     book:[
         {}
