@@ -62,6 +62,7 @@ class Home extends Component {
             </View>
         );
     }
+
     render() {
         this._bootstrapAsync()
         console.log(this.props.user)
@@ -134,14 +135,14 @@ class Home extends Component {
                             // badgeText="1"
                             onPress={() => this.setState({ selectedTab: 'home' })}
                             titleStyle={{ color: "#969696" }}
-                            selectedTitleStyle={{ color: "#EBBF0E" }}
+                            selectedTitleStyle={{ color: "#87ad14" }}
                         >
                             <View style={styles.containerHome}>
                                 <ScrollView>
                                     <View style={styles.slideBanner}>
-                                        <Swiper activeDotStyle={{ backgroundColor: "#EBBF0E" }} autoplay={true} autoplayTimeout={3.5} index={0} style={styles.wrapper} >
-                                            <ImageBackground style={styles.banner} source={Images.Banner} />
-                                            <ImageBackground style={styles.banner} source={Images.Banner1} />
+                                        <Swiper activeDotStyle={{ backgroundColor: "#87ad14" }} autoplay={true} autoplayTimeout={3.5} index={0} style={styles.wrapper} >
+                                            <Image   style={styles.banner} source={Images.Banner} />
+                                            <Image   style={styles.banner} source={Images.Banner1} />
 
                                         </Swiper>
                                     </View>
@@ -152,7 +153,7 @@ class Home extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#EBBF0E", justifyContent: 'center', alignItems: 'center' }}>
+                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#87ad14", justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#fff' }}>{this.props.user.vi?Languages.more.vi:Languages.more.en}</Text>
                                                 </TouchableOpacity>
 
@@ -160,7 +161,7 @@ class Home extends Component {
                                         </View>
                                         <View style={styles.category}>
                                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                                <TouchableOpacity style={styles.itemCategory}>
+                                                <TouchableOpacity onPress={()=>navigate('InfoBook')} style={styles.itemCategory}>
                                                     <View style={styles.avatar}>
                                                         <ImageBackground style={styles.avatarBook} source={Images.AvatarBook} />
                                                     </View>
@@ -216,7 +217,7 @@ class Home extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#EBBF0E", justifyContent: 'center', alignItems: 'center' }}>
+                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#87ad14", justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#fff' }}>{this.props.user.vi?Languages.more.vi:Languages.more.en}</Text>
                                                 </TouchableOpacity>
 
@@ -281,7 +282,7 @@ class Home extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#EBBF0E", justifyContent: 'center', alignItems: 'center' }}>
+                                                <TouchableOpacity style={{ width: Dimensions.get('window').width / 4, height: 30, backgroundColor: "#87ad14", justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ fontWeight: 'bold', fontSize: 15, color: '#fff' }}>{this.props.user.vi?Languages.more.vi:Languages.more.en}</Text>
                                                 </TouchableOpacity>
 
@@ -353,7 +354,7 @@ class Home extends Component {
                             renderIcon={() => <Image source={Images.IconCart} style={{ width: 24, height: 24 }} />}
                             renderSelectedIcon={() => <Image source={Images.IconCartSelected} style={{ width: 24, height: 24 }} />}
                             // renderBadge={() => <CustomBadgeView />}
-                            selectedTitleStyle={{ color: "#EBBF0E" }}
+                            selectedTitleStyle={{ color: "#87ad14" }}
 
                             onPress={() => this.setState({ selectedTab: 'profile' })}>
                             <View style={styles.content}>
@@ -461,8 +462,7 @@ const styles = StyleSheet.create({
     banner: {
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height / 4,
-        justifyContent: 'center',
-        alignItems: 'center',
+        
     },
     card: {
         marginTop: 20,
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     header: {
-        backgroundColor: "#EBBF0E",
+        backgroundColor: "#87ad14",
         shadowColor: "#d8d100",
         shadowOffset: {
             width: 0,
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
     btnLogout: {
         width: Dimensions.get('window').width * 0.7 - 20,
         height: 50,
-        backgroundColor: "#EBBF0E",
+        backgroundColor: "#87ad14",
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',

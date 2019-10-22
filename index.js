@@ -26,6 +26,7 @@ const store = configureStore();
   import Index from './src/screen/Index/Index'
   import Login from './src/screen/User/Login/Login'
   import Home from './src/screen/Home/Home'
+  import InfoBook from './src/screen/Book/Info/Info'
   // import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
   import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
 
@@ -44,7 +45,8 @@ const store = configureStore();
       Index: Index,
       Login:Login,
       Home:Home,
-      ForgotPassword:ForgotPassword
+      ForgotPassword:ForgotPassword,
+      InfoBook:InfoBook
     },
     {
       // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    

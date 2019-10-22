@@ -2,7 +2,8 @@
 
 export const Images ={
     Background:require ('./background6.jpg'),
-    Logo:require('./logofinal.png'),
+    Logo:require('./logoTalk.png'),
+
     BackgroundLogin:require('./background1.jpg'),
     IconUser :require('./user.png'),
     IconLockL:require('./lock.png'),
@@ -23,6 +24,11 @@ export const Images ={
     AvatarBook:require('./avatarbook/dacnhantam.jpg'),
     AvatarBook1:require('./avatarbook/tony.jpg'),
     AvatarBook2:require('./avatarbook/tuoitre.jpg'),
+    IconBack:require('./images-master/appIcon/back.png'),
+    IconC:require('./images-master/appIcon/cart0.png'),
+    Pay:require('./pay.png'),
+
+
 
 
     // Banner2:require('./bannerbook2.png'),

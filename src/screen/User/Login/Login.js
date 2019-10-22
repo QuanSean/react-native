@@ -258,10 +258,11 @@ const styles = StyleSheet.create({
     },
     logoContnet: {
         alignItems: "center",
-        marginBottom: 30
+        marginBottom: 30,
+        width:WIDTH
     },
     logo: {
-        width:110,
+        width:WIDTH-20,
         height:110
     },
     textLogo: {
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
         width: WIDTH - 25,
         height: 55,
         borderRadius: 25,
-        backgroundColor: '#EBBF0E',
+        backgroundColor: '#87ad14',
         color: '#666666',
         marginHorizontal: 25,
         justifyContent: "center",

@@ -9,5 +9,7 @@ export const Languages={
     more:{vi:"Xem thêm", en:"More"},
     hotBook:{vi:"Sách mua nhiều nhất", en:"Hot book"},
     newBook:{vi:"Sách mới", en:"New book"},
-    discount:{vi:'Sách giảm giá', en:"Discount"}
+    discount:{vi:'Sách giảm giá', en:"Discount"},
+    genericproducts:{vi:"Sản phẩm cùng loại", en:"Generic Products"},
+    info:{vi:"Thông tin chi tiết", en:"Infomation"}
 }
