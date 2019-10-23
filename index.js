@@ -18,9 +18,9 @@ const store = configureStore();
   import InfoBook from './src/screen/Book/Info/Info'
   import ForgotPassword from './src/screen/User/ForgotPassword/ForgotPassword'
 
-  const AppStack = createStackNavigator({ Home: Home },
+  const AppStack = createStackNavigator({ Home: Home,InfoBook:InfoBook },
     {
-      // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    
+      // initialRouteName: 'Home',headerMode: 'none',    
       headerMode: 'none',          
     });
   const AuthStack = createStackNavigator({ Login: Login },
@@ -32,9 +32,9 @@ const store = configureStore();
     {
       Index: Index,
       Login:Login,
-      Home:Home,
+      Home:AppStack,
       ForgotPassword:ForgotPassword,
-      InfoBook:InfoBook
+      
     },
     {
       // initialRouteName: 'Home',mode: 'modal',headerMode: 'none',    

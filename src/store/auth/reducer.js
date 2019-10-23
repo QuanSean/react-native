@@ -67,7 +67,7 @@ export const authReducer = (state = initialState, action) => {
     case EVENT.RUNNING:
       state = {
         ...state,
-        running: action.payload.running,
+        running: action.payload.running
       }
       break;
     case AUTH_TYPES.AUTH.INFO: 

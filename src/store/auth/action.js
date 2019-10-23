@@ -81,7 +81,9 @@ export const loginFB = (accountIdFb) => {
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
-                                    result: res.data.success
+                                    result: res.data.success,
+                                    login:true
+
                                 }
                             })
                         }
@@ -89,7 +91,9 @@ export const loginFB = (accountIdFb) => {
                             return dispatch({
                                 type: AUTH_TYPES.AUTH.LOGIN,
                                 payload: {
-                                    result: false
+                                    result: false,
+                                    login:false
+
                                 }
                             });
                         }
@@ -100,7 +104,8 @@ export const loginFB = (accountIdFb) => {
                             payload: {
                                 result: false,
                                 token: '',
-                                email: ''
+                                email: '',
+                                login:false
                             }
                         })
                     }
@@ -119,29 +124,29 @@ export const registerFB = (email, fullName,accessTokenFb,accountIdFb) => {
                     if (!res.err) {
                         if (res.data.success) {
                             return dispatch({
-                                type: AUTH_TYPES.AUTH.LOGIN,
-                                payload: {
-                                    result: res.data.success
-                                }
+                                // type: AUTH_TYPES.AUTH.LOGIN,
+                                // payload: {
+                                //     result: res.data.success
+                                // }
                             })
                         }
                         else {
                             return dispatch({
-                                type: AUTH_TYPES.AUTH.LOGIN,
-                                payload: {
-                                    result: false
-                                }
+                                // type: AUTH_TYPES.AUTH.LOGIN,
+                                // payload: {
+                                //     result: false
+                                // }
                             });
                         }
                     }
                     else {
                         dispatch({
-                            type: AUTH_TYPES.AUTH.LOGIN,
-                            payload: {
-                                result: false,
-                                token: '',
-                                email: ''
-                            }
+                            // type: AUTH_TYPES.AUTH.LOGIN,
+                            // payload: {
+                            //     result: false,
+                            //     token: '',
+                            //     email: ''
+                            // }
                         })
                     }
                 }
@@ -160,6 +165,16 @@ export const resetResult = () => {
     }
 }
 
+// export const changeStatusRunning = (status) => {
+//     return dispatch => {
+//         dispatch({
+//             type: EVENT.RUNNING,
+//             payload: {
+//                 running: status
+//             }
+//         })
+//     }
+// }
 export const changeStatusRunning = (status) => {
     return dispatch => {
         dispatch({

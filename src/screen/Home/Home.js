@@ -21,7 +21,7 @@ class Home extends Component {
         this.state = {
             authenticated: false,
             dataSource: ["1", "2", "3"],
-            selectedTab: "home"
+            selectedTab: "home",
         }
     }
     closeControlPanel = () => {
@@ -40,8 +40,6 @@ class Home extends Component {
 
     };
     componentDidMount = async () => {
-
-
         AsyncStorage.getItem('token', (err, value) => {
             if (value) {
                 this.props.getInfo()
@@ -51,12 +49,16 @@ class Home extends Component {
             }
         })
         this.props.getAllBook()
+        this.props.changeStatusRunning(true)
+        this._loadItemCart()
     }
 
     logout = () => {
         const { navigate } = this.props.navigation;
         // navigate('Login')
         this.props.logout()
+
+        this.closeControlPanel()
 
     }
     _renderItem({ item, index }) {
@@ -66,13 +68,23 @@ class Home extends Component {
             </View>
         );
     }
+    _loadItemCart = async () => {
+
+        const cartToken = await AsyncStorage.getItem('cart');
+        if (cartToken) {
+            var arrData = JSON.parse(cartToken)
+            arrData
+            
+        }
+        else
+        {
+            console.log ("NONONOONONONON")
+        }
+    }
 
     render() {
         this._bootstrapAsync()
-        // console.log(this.props.book.allBook[0])
-        // this.props.book.allBook.map(item=>{
-        //     console.log (item)
-        // })
+        this._loadItemCart()
         const { navigate } = this.props.navigation;
         return (
             <Drawer
@@ -154,17 +166,16 @@ class Home extends Component {
                                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                                 {
                                                     this.props.book.allBook.length > 0 ? this.props.book.allBook.map(item => {
-                                                        console.log (item._id)
-                                                        return(<TouchableOpacity onPress={() => navigate('InfoBook', {idBook:item._id} )} style={styles.itemCategory}>
+                                                        return (<TouchableOpacity onPress={() => this.props.navigation.navigate('InfoBook', { idBook: item._id })} style={styles.itemCategory}>
                                                             <View style={styles.avatar}>
-                                                                <Image resizeMode={'contain'} style={styles.avatarBook} source={{uri:item.images[0]}} />
+                                                                <Image resizeMode={'contain'} style={styles.avatarBook} source={{ uri: item.images[0] }} />
                                                             </View>
                                                             <View style={styles.infoBook}>
                                                                 <Text>{item.name}</Text>
                                                                 <Text style={{ color: "red" }}>{item.price}</Text>
                                                             </View>
                                                         </TouchableOpacity>)
-                                                        
+
                                                     }) : null
                                                 }
                                             </ScrollView>
@@ -185,21 +196,20 @@ class Home extends Component {
                                         </View>
                                         <View style={styles.category}>
                                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                            {
-                                                this.props.book.allBook.length > 0 ? this.props.book.allBook.map(item => {
-                                                    console.log (item._id)
-                                                    return(<TouchableOpacity onPress={() => navigate('InfoBook', {idBook:item._id} )} style={styles.itemCategory}>
-                                                        <View style={styles.avatar}>
-                                                            <Image resizeMode={'contain'} style={styles.avatarBook} source={{uri:item.images[0]}} />
-                                                        </View>
-                                                        <View style={styles.infoBook}>
-                                                            <Text>{item.name}</Text>
-                                                            <Text style={{ color: "red" }}>{item.price}</Text>
-                                                        </View>
-                                                    </TouchableOpacity>)
-                                                    
-                                                }) : null
-                                            }
+                                                {
+                                                    this.props.book.allBook.length > 0 ? this.props.book.allBook.map(item => {
+                                                        return (<TouchableOpacity onPress={() => navigate('InfoBook', { idBook: item._id })} style={styles.itemCategory}>
+                                                            <View style={styles.avatar}>
+                                                                <Image resizeMode={'contain'} style={styles.avatarBook} source={{ uri: item.images[0] }} />
+                                                            </View>
+                                                            <View style={styles.infoBook}>
+                                                                <Text>{item.name}</Text>
+                                                                <Text style={{ color: "red" }}>{item.price}</Text>
+                                                            </View>
+                                                        </TouchableOpacity>)
+
+                                                    }) : null
+                                                }
                                             </ScrollView>
                                         </View>
                                     </View>
@@ -268,12 +278,7 @@ class Home extends Component {
                                             </ScrollView>
                                         </View>
                                     </View>
-
-
                                 </ScrollView>
-
-
-
                             </View>
 
                         </TabNavigator.Item>
@@ -285,7 +290,10 @@ class Home extends Component {
                             // renderBadge={() => <CustomBadgeView />}
                             selectedTitleStyle={{ color: "#87ad14" }}
 
-                            onPress={() => this.setState({ selectedTab: 'profile' })}>
+                            onPress={() => {
+                                this.setState({ selectedTab: 'profile' })
+                                // this._loadItemCart()
+                            }}>
                             <View style={styles.containerCart}>
                                 <View style={styles.contentCart}>
                                     <ScrollView>
@@ -296,7 +304,35 @@ class Home extends Component {
                                             </View>
                                         </View>
                                         <View>
-                                            <View style={styles.itemProduct}>
+                                            {
+                                                 (this.state.arrCart)? 
+                                                    this.state.arrCart.map(item => {
+                                                        return (
+                                                            <View style={styles.itemProduct}>
+                                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook} />
+                                                                <View style={styles.itemProductInfo}>
+                                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)</Text>
+                                                                    <View style={styles.numberProduct}>
+                                                                        <TouchableOpacity style={styles.minus}>
+                                                                            <Text>-</Text>
+                                                                        </TouchableOpacity>
+                                                                        <View style={styles.minus}>
+                                                                            <Text>10</Text>
+                                                                        </View>
+                                                                        <TouchableOpacity style={styles.minus}>
+                                                                            <Text>+</Text>
+                                                                        </TouchableOpacity>
+                                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
+                                        
+                                                                    </View>
+                                                                </View>
+                                        
+                                                            </View>
+                                                        )
+                                                    }):<View></View>
+                                                
+                                            }
+                                            {/* <View style={styles.itemProduct}>
                                                 <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook} />
                                                 <View style={styles.itemProductInfo}>
                                                     <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)</Text>
@@ -315,110 +351,7 @@ class Home extends Component {
                                                     </View>
                                                 </View>
 
-                                            </View>
-                                            <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook1} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-                                                </View>
-
-                                            </View>
-                                            <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook2} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-                                                </View>
-
-                                            </View>
-                                            <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook3} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 - BÉ TẬP KỂ TRUYỆN TIẾNG ANH (Bé 7 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-
-                                                </View>
-
-                                            </View>
-                                            <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook4} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 BÉ VÀO LỚP 2 (Bé 7 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-                                                </View>
-
-                                            </View>
-                                            <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook5} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 BÉ LUYỆN PHÁT ÂM (8 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text style={{ color: "#7c7c7c" }}>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-
-                                                </View>
-
-                                            </View>
-
+                                            </View> */}
                                         </View>
 
                                     </ScrollView>
@@ -457,7 +390,8 @@ const mapDispatchToProps = {
     getInfo: authAction.getInfo,
     logout: authAction.logout,
     vi: authAction.vi,
-    getAllBook: bookAction.getAllBook
+    getAllBook: bookAction.getAllBook,
+    changeStatusRunning: authAction.changeStatusRunning
 }
 export default connect(
     mapStateToProps,

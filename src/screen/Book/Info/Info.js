@@ -10,6 +10,8 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { Languages } from './../../../languages/Languages'
 import { connect } from 'react-redux'
 import Carousel from 'react-native-snap-carousel';
+import * as bookAction from './../../../store/book/action'
+import { AsyncStorage } from 'react-native';
 
 class Info extends Component {
 
@@ -26,8 +28,67 @@ class Info extends Component {
             ]
         }
     }
-    _renRow() {
-        const info = Infobook.info;
+    buy = async (id) => {
+
+        var data = {
+
+            idUser: this.props.user.info._id,
+            product:
+                [
+                    { productId: id, count: 1 }
+                ]
+        }
+
+        const cartToken = await AsyncStorage.getItem('cart');
+        if (!cartToken)
+        {
+            var arrCart=[]
+            arrCart.push(data)
+            AsyncStorage.setItem('cart', JSON.stringify(arrCart));
+        }
+        else
+        {
+            var co=0
+            var arrCart = JSON.parse(cartToken)
+            arrCart.map(item=>{
+                // console.log(item.idUser)
+                if (item.idUser== this.props.user.info._id)
+                {
+                    var c=0
+                    item.product.map(itemProduct=>{
+                        if (itemProduct.productId==id)
+                        {
+                            c++;
+                        }
+                        else
+                        {
+                            var obj={productId:id,count:1}
+                            console.log(item.product)
+                            // item.product.push(obj)
+                        }
+                    })
+                    if (c==0)
+                    {
+                        var obj={productId:id,count:1}
+                        item.product.push(obj) 
+                    }
+
+                }
+                else
+                {
+                    co ++;
+                }
+            })
+            console.log("COO"+co)
+            if (co>0)
+            {
+                arrCart.push(data)
+            }
+            AsyncStorage.setItem('cart', JSON.stringify(arrCart));
+        }
+    }
+    _renRow(info = []) {
+
         var infoData = []
         info.map(item => {
             var data = Object.entries(item)[0];
@@ -55,20 +116,23 @@ class Info extends Component {
         return (
             <View style={styles.page}>
                 <ScrollView>
-                    <Text style={{fontWeight:"bold", fontSize:16}}>Đắc nhâm tâm </Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 16 }}>Đắc nhâm tâm </Text>
                     <Text style={styles.title}>Đắc nhân tâm, tên tiếng Anh là How to Win Friends and Influence People là một quyển sách nhằm tự giúp bản thân bán chạy nhất từ trước đến nay. Quyển sách này do Dale Carnegie viết và đã được xuất bản lần đầu vào năm 1936, nó đã được bán 15 triệu bản trên khắp thế giới</Text>
                 </ScrollView>
             </View>
         );
     }
-    componentDidMount(){
+    componentDidMount() {
         const { navigate } = this.props.navigation;
-        console.log (this.props.navigation.getParam('idBook'))
+        var id = JSON.stringify(this.props.navigation.getParam('idBook', 'NO-ID'))
+        // console.log (id)
+        this.props.info(this.props.navigation.state.params.idBook)
 
     }
     render() {
         const state = this.state;
         const { navigate } = this.props.navigation;
+
         return (
 
             <View style={styles.container}>
@@ -87,17 +151,24 @@ class Info extends Component {
                             <View style={styles.imagOoverview}>
                                 <Swiper activeDotStyle={{ backgroundColor: "#87ad14" }} autoplay={true} autoplayTimeout={3.5} index={0} style={styles.wrapper} >
                                     {
-                                        Infobook.images.map(item => {
-                                            return <Image style={styles.imageItemOverview} resizeMode={'contain'} source={item} />
-                                        })
+                                        this.props.book.info.images ?
+                                            this.props.book.info.images.map(item => {
+                                                return <Image style={styles.imageItemOverview} resizeMode={'contain'} source={{ uri: item }} />
+                                            }) :
+                                            <View style={styles.imageItemOverview} ></View>
                                     }
 
                                 </Swiper>
                             </View>
                             <View style={styles.infoOverview}>
-                                <Text style={{ fontWeight: "bold", fontSize: 18 }}>{Infobook.title}</Text>
-                                <Text style={{ fontWeight: "bold", fontSize: 16, color: "red" }}>{Infobook.price} đ  </Text>
-                                <TouchableOpacity style={styles.btnBuy}>
+                                <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                                    {
+                                        this.props.book.info.name ? this.props.book.info.name : ""
+
+                                    }
+                                </Text>
+                                <Text style={{ fontWeight: "bold", fontSize: 16, color: "red" }}>{this.props.book.info.price ? this.props.book.info.price : ""} đ  </Text>
+                                <TouchableOpacity style={styles.btnBuy} onPress={() => this.buy(this.props.book.info._id)}>
                                     <Text style={{ fontWeight: "bold", fontSize: 16, color: "#fff" }}>MUA</Text>
                                 </TouchableOpacity>
                             </View>
@@ -117,20 +188,7 @@ class Info extends Component {
                             <ScrollView horizontal={true}>
                                 <View style={{ height: HEIGHT / 3 }}>
                                     <ScrollView style={styles.dataWrapper}>
-                                        {this._renRow()}
-                                        {/* <Table borderStyle={{ }}>
-                                            {
-                                                this.state.tableData.map((rowData, index) => (
-                                                    <Row
-                                                        key={index}
-                                                        data={rowData}
-                                                        widthArr={state.widthArr}
-                                                        style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                                                        textStyle={styles.text}
-                                                    />
-                                                ))
-                                            }
-                                        </Table> */}
+                                        {this._renRow(this.props.book.info.info)}
                                     </ScrollView>
                                 </View>
                             </ScrollView>
@@ -222,6 +280,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+    info: bookAction.info,
+    getAll: bookAction.getAllBook
 }
 export default connect(
     mapStateToProps,
@@ -305,7 +365,7 @@ const styles = StyleSheet.create({
         height: HEIGHT - 250,
         marginTop: 20,
         backgroundColor: "#f2f2f2",
-        padding:15
+        padding: 15
     },
     page: {
         height: HEIGHT - 290, width: WIDTH - 80, backgroundColor: "#fff",
@@ -316,9 +376,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.34,
         shadowRadius: 6.27,
-        
+
         elevation: 10,
-        padding:15
+        padding: 15
 
     },
     itemCategory: {

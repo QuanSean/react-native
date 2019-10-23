@@ -25,93 +25,41 @@ class Index extends Component {
         { 
             await this.props.changeVe()
             await this.props.getInfo();
-            console.log(this.props.user.info)
-            // if (this.props.user.info.name)
-            // {
-            //     this.props.navigation.navigate('Home');
-
-            // }
-            // else
-            // {
-            //     this.props.navigation.navigate('Login');
-            // }
         }
         else
         {
             this.props.navigation.navigate('Login');
 
         }
-        // this.props.navigation.navigate(userToken? 'Home' : 'Login');
         console.log (this.props.user)
 
       };
-    // UNSAFE_componentWillMount = () => {
-    //     this._bootstrapAsync();
-    // }
+  
     
     UNSAFE_componentWillMount(){
-        // var {navigate}=this.props.navigation
-        // this.props.navigation.navigate(this.props.user.email ? 'Home' : 'Login');
+        
         this._bootstrapAsync()
         
     }
-    // re =async()=>{
-    //     var {navigate}=this.props.navigation
-    //     var {email}= await this.props.user
-    //     if (email)
-    //     {
-    //         navigate('Home')
-
-    //     }  
-    //     else
-    //     {
-            
-    //             navigate('Login')
-            
-
-    //     }
-    // }
+ 
 
     render() {
-        // this.re()
-        // this.props.navigation.navigate(this.props.user.email ? 'Home' : 'Login');
-        console.log ("INDEX")
-        console.log (this.props.user)
+        
         if (this.props.user.getinfo)
         {
             if (this.props.user.info.name)
             {
-                this.props.navigation.navigate("Home")
+                if (!this.props.user.running)
+                {
+                    this.props.navigation.navigate("Home")
+                }
             }
             else
             {
                 this.props.navigation.navigate(this.props.user.login? 'Home' : 'Login');
-
             }
 
         }
-        // this.props.navigation.navigate(this.props.user.email ? 'Home');
-        // this.re()
-        // const { navigate } = this.props.navigation;
-        // if (this.props.user.running)
-        // {
-        //     console.log(this.props.user.ve)
-        //     if (this.props.user.ve)
-        //     {
-
-        //         // console.log (this.props.user.email)
-        //         if(this.props.user.email)
-        //         {
-        //             navigate('Home')
-        //             console.log ("HOME")
-        //         }
-        //         else
-        //         {
-        //             navigate('Login')
-        //             console.log ("LGOUN")
-        //         }
-        //     }
-        // }
         
         return (
             <View source={Images.Background} style={{ flex: 1 }}>
@@ -136,6 +84,7 @@ const mapDispatchToProps = {
     v:authAction.v,
     changeVe:authAction.changeVe,
     getInfo: authAction.getInfo,
+    changeStatusLogin:authAction.changeStatusLogin
 
 }
 export default connect(

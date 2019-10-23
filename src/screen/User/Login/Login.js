@@ -25,10 +25,8 @@ class Login extends Component {
         AsyncStorage.getItem('token', (err, value) => {
             if (value) {
                 this.props.verify();
-                // console.log (value)
             }
         });
-        console.log ("aaaaaa")
     };
     makeEmail(length) {
         var result = '';
@@ -157,33 +155,6 @@ class Login extends Component {
                 <View>
                     <Text style={{color:'#bcbcbc', marginTop:10, marginBottom:15}}>.........{this.props.user.vi?Languages.or.vi:Languages.or.en}...........</Text>
                 </View>
-                {/* <LoginButton
-                    publishPermissions={['publish_actions']}
-                    readPermissions={['public_profile']}
-                    onLoginFinished={
-                        (error, result) => {
-                            if (error) {
-                                console.log("login has error: " + result.error);
-                            } else if (result.isCancelled) {
-                                console.log("login is cancelled.");
-                            } else {
-                                AccessToken.getCurrentAccessToken().then(
-
-                                    (data) => {
-                                        const { accessToken, userID } = data
-                                        // console.log (userID)
-
-                                        this.initUser(accessToken, userID)
-                                        this.props.loginFB(userID)
-                                        navigate('Home')
-
-                                    }
-                                )
-                            }
-                        }
-                    }
-                    onLogoutFinished={() => console.log("logout.")} /> */}
-
                 <TouchableOpacity  onPress={() => {
                     LoginManager.logInWithPermissions(['public_profile', 'email', 'user_friends']).then(
 

@@ -63,46 +63,85 @@ export const getAllBook=()=>{
     }
 }
 
-export const login = (email, password) => {
-    return async (dispatch) => {
-        let loginuser = AuthenticationService.login(email, password);
-        loginuser
-            .then(
-                res => {
-                    if (!res.err) {
-                        // console.log (res.data.token)
-                        if (res.data.success) {
-                            AsyncStorage.setItem('token', res.data.token);
-                            return dispatch({
-                                type: AUTH_TYPES.AUTH.LOGIN,
-                                payload: {
-                                    result: res.data.success,
-                                    login:true
-                                }
-                            })
-                        }
-                        else {
-                            return dispatch({
-                                type: AUTH_TYPES.AUTH.LOGIN,
-                                payload: {
-                                    result: false,
-                                    login:false
-                                }
-                            });
-                        }
-                    }
-                    else {
-                        dispatch({
-                            type: AUTH_TYPES.AUTH.LOGIN,
+
+export const info= (idBook)=>{
+    return async (dispatch)=>{
+        let info=BookService.info(idBook)
+        info
+        .then(
+            res=>{
+                
+                if (!res.err)
+                {
+                    if (res.data.success)
+                    {
+                        return dispatch({
+                            type: BOOK_TYPES.INFOBOOK,
                             payload: {
-                                result: false,
-                                token: '',
-                                email: '',
-                                login:false
+                                info:res.data.detail
+                            }
+                        })
+                    }
+                    else{
+                        return dispatch({
+                            type: BOOK_TYPES.INFOBOOK,
+                            payload: {
+                                info:{}
                             }
                         })
                     }
                 }
-            )
+                else
+                {
+                    return dispatch({
+                        type: BOOK_TYPES.INFOBOOK,
+                        payload: {
+                            info:{}
+                        }
+                    })
+                }
+            }
+        )        
+    }
+}
+
+export const addItemCart= (idBook)=>{
+    return async (dispatch)=>{
+        let info=BookService.info(idBook)
+        info
+        .then(
+            res=>{
+                
+                if (!res.err)
+                {
+                    if (res.data.success)
+                    {
+                        return dispatch({
+                            type: BOOK_TYPES.ARRCART,
+                            payload: {
+                                item:res.data.detail
+                            }
+                        })
+                    }
+                    else{
+                        // return dispatch({
+                        //     type: BOOK_TYPES.ARRCART,
+                        //     payload: {
+                        //         item:{}
+                        //     }
+                        // })
+                    }
+                }
+                else
+                {
+                    // return dispatch({
+                    //     type: BOOK_TYPES.ARRCART,
+                    //     payload: {
+                    //         item:{}
+                    //     }
+                    // })
+                }
+            }
+        )        
     }
 }
