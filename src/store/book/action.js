@@ -13,12 +13,12 @@ const authenAction = (type, token, email, result) => {
         }
     }
 }
-export const v=()=>{
+export const statusArrCart=(status)=>{
     return dispatch => {
         dispatch({
-            type: AUTH_TYPES.AUTH.V,
+            type: BOOK_TYPES.CHANGESTATUSARRCART,
             payload: {
-                v:true
+                statusArrCart:status
             }
         })
     }
@@ -111,11 +111,11 @@ export const addItemCart= (idBook)=>{
         info
         .then(
             res=>{
-                
                 if (!res.err)
                 {
                     if (res.data.success)
                     {
+
                         return dispatch({
                             type: BOOK_TYPES.ARRCART,
                             payload: {

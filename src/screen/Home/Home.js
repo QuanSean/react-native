@@ -22,6 +22,7 @@ class Home extends Component {
             authenticated: false,
             dataSource: ["1", "2", "3"],
             selectedTab: "home",
+            price:0
         }
     }
     closeControlPanel = () => {
@@ -37,7 +38,6 @@ class Home extends Component {
 
             this.props.navigation.navigate('Login')
         }
-
     };
     componentDidMount = async () => {
         AsyncStorage.getItem('token', (err, value) => {
@@ -50,7 +50,12 @@ class Home extends Component {
         })
         this.props.getAllBook()
         this.props.changeStatusRunning(true)
-        this._loadItemCart()
+        console.log (this.props.book.arrCart)
+        var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+        var removed = myFish.splice(3, 1);
+        console.log (myFish)
+
+
     }
 
     logout = () => {
@@ -69,22 +74,32 @@ class Home extends Component {
         );
     }
     _loadItemCart = async () => {
-
         const cartToken = await AsyncStorage.getItem('cart');
         if (cartToken) {
             var arrData = JSON.parse(cartToken)
-            arrData
-            
+            arrData.map(item => {
+                if (item.idUser == this.props.user.info._id) {
+                    item.product.map(itemProduct => {
+                        this.props.addItemCart(itemProduct.productId)
+                        
+                    })
+                }
+            })
+            this.setState({
+                arrCart:this.props.book.arrCart
+            })
+
+
         }
-        else
-        {
-            console.log ("NONONOONONONON")
-        }
+        this.state.arrCart.map(item=>{
+            this.setState({
+                price:this.state.price+item.price
+            })
+        })
     }
 
     render() {
         this._bootstrapAsync()
-        this._loadItemCart()
         const { navigate } = this.props.navigation;
         return (
             <Drawer
@@ -136,7 +151,11 @@ class Home extends Component {
                             renderIcon={() => <Image source={Images.IconHome} style={{ width: 24, height: 24 }} />}
                             renderSelectedIcon={() => <Image source={Images.IconHomeSelected} style={{ width: 24, height: 24 }} />}
                             // badgeText="1"
-                            onPress={() => this.setState({ selectedTab: 'home' })}
+                            onPress={() => {
+                                this.setState({ selectedTab: 'home', price:0 })
+
+                                }
+                            }
                             titleStyle={{ color: "#969696" }}
                             selectedTitleStyle={{ color: "#87ad14" }}
                         >
@@ -292,7 +311,8 @@ class Home extends Component {
 
                             onPress={() => {
                                 this.setState({ selectedTab: 'profile' })
-                                // this._loadItemCart()
+                                this._loadItemCart()
+
                             }}>
                             <View style={styles.containerCart}>
                                 <View style={styles.contentCart}>
@@ -305,53 +325,47 @@ class Home extends Component {
                                         </View>
                                         <View>
                                             {
-                                                 (this.state.arrCart)? 
-                                                    this.state.arrCart.map(item => {
+                                                (this.state.arrCart) ?
+                                                    this.state.arrCart.map((item,i) => {
                                                         return (
                                                             <View style={styles.itemProduct}>
-                                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook} />
+                                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={{uri:item.images[0]}} />
                                                                 <View style={styles.itemProductInfo}>
-                                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)</Text>
+                                                                    <Text style={{ color: "#7c7c7c" }}>{item.name}</Text>
                                                                     <View style={styles.numberProduct}>
-                                                                        <TouchableOpacity style={styles.minus}>
+                                                                        {/* <TouchableOpacity style={styles.minus}>
                                                                             <Text>-</Text>
                                                                         </TouchableOpacity>
                                                                         <View style={styles.minus}>
-                                                                            <Text>10</Text>
+                                                                            <Text>1</Text>
                                                                         </View>
                                                                         <TouchableOpacity style={styles.minus}>
                                                                             <Text>+</Text>
-                                                                        </TouchableOpacity>
-                                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-                                        
+                                                                        </TouchableOpacity> */}
+                                                                        <Text style={{ color: "red", marginLeft: 10 }}>{item.price} đ</Text>
+
                                                                     </View>
                                                                 </View>
-                                        
+                                                                <View style={styles.btnDeleteItemCart}>
+                                                                    <TouchableOpacity onPress={()=>{
+                                                                        var arr=this.state.arrCart
+                                                                        var removed = arr.splice(i, 1);
+                                                                        console.log (arr)
+                                                                        this.setState({
+                                                                            arrCart:arr,
+                                                                            // price:this.state.price
+                                                                        })
+                                                                    }}>
+                                                                        <Text>X</Text>
+                                                                    </TouchableOpacity>
+                                                                </View> 
+
                                                             </View>
                                                         )
-                                                    }):<View></View>
-                                                
+                                                    }) : <View></View>
+
                                             }
-                                            {/* <View style={styles.itemProduct}>
-                                                <Image resizeMode={'contain'} style={styles.imageProduct} source={Images.AvatarBook} />
-                                                <View style={styles.itemProductInfo}>
-                                                    <Text style={{ color: "#7c7c7c" }}>Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)</Text>
-                                                    <View style={styles.numberProduct}>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>-</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.minus}>
-                                                            <Text>10</Text>
-                                                        </View>
-                                                        <TouchableOpacity style={styles.minus}>
-                                                            <Text>+</Text>
-                                                        </TouchableOpacity>
-                                                        <Text style={{ color: "red", marginLeft: 10 }}>100000đ</Text>
-
-                                                    </View>
-                                                </View>
-
-                                            </View> */}
+                                            
                                         </View>
 
                                     </ScrollView>
@@ -359,7 +373,7 @@ class Home extends Component {
                                 </View>
                                 <View style={styles.buy}>
                                     <View style={styles.buyLeft}>
-                                        <Text><Text style={{ fontSize: 13 }}>{this.props.user.vi ? Languages.total.vi : Languages.total.en}: </Text><Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>100000 đ</Text></Text>
+                                        <Text><Text style={{ fontSize: 13 }}>{this.props.user.vi ? Languages.total.vi : Languages.total.en}: </Text><Text style={{ color: "red", fontSize: 15, fontWeight: "bold" }}>{this.state.price}</Text></Text>
                                     </View>
                                     <View style={styles.buyRight}>
                                         <TouchableOpacity style={styles.btnBuy}>
@@ -391,7 +405,9 @@ const mapDispatchToProps = {
     logout: authAction.logout,
     vi: authAction.vi,
     getAllBook: bookAction.getAllBook,
-    changeStatusRunning: authAction.changeStatusRunning
+    changeStatusRunning: authAction.changeStatusRunning,
+    addItemCart: bookAction.addItemCart,
+    statusArrCart: bookAction.statusArrCart
 }
 export default connect(
     mapStateToProps,
@@ -664,6 +680,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
 
+    },
+    btnDeleteItemCart:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     }
 
 })
