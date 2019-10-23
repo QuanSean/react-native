@@ -2,12 +2,11 @@ import { FETCH_TYPES } from './types'
 import { FETCH, MAKE_FROM_BODY, promiseProvider } from './fetch';
 import { async } from 'q';
 
-export const bookService={
+export const BookService={
     getAllBook: async()=>{
         try {
-            let res = await promiseProvider('book/createbook', {
-              method: 'POST',
-              
+            let res = await promiseProvider('book/getall', {
+              method: 'GET',
             })
             return ({
               err: false,

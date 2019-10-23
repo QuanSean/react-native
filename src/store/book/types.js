@@ -1,0 +1,10 @@
+export const BOOK_TYPES = {
+  GETALLBOOK:"BOOK/GETALL"
+  
+}
+
+export const ERROR = {
+  NOT_EXIST: 'ERROR/NOT_EXIST',
+  DUPLICATE: 'ERROR/DUPLICATE',
+}
+

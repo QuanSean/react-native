@@ -3,6 +3,8 @@ import { View, Text, Image, ImageBackground, StyleSheet, TextInput, Dimensions, 
 import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux'
 import * as authAction from '../../store/auth/action';
+import * as bookAction from '../../store/book/action';
+
 import Drawer from 'react-native-drawer'
 import { Header } from 'react-native-elements';
 import { Images } from '../../assets/Images';
@@ -48,6 +50,7 @@ class Home extends Component {
 
             }
         })
+        this.props.getAllBook()
     }
 
     logout = () => {
@@ -66,7 +69,10 @@ class Home extends Component {
 
     render() {
         this._bootstrapAsync()
-        console.log(this.props.user)
+        // console.log(this.props.book.allBook[0])
+        // this.props.book.allBook.map(item=>{
+        //     console.log (item)
+        // })
         const { navigate } = this.props.navigation;
         return (
             <Drawer
@@ -146,52 +152,21 @@ class Home extends Component {
                                         </View>
                                         <View style={styles.category}>
                                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                                <TouchableOpacity onPress={() => navigate('InfoBook')} style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIÁO DỤC SỚM (Bé 1-3 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook1} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>90 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook2} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-
+                                                {
+                                                    this.props.book.allBook.length > 0 ? this.props.book.allBook.map(item => {
+                                                        console.log (item._id)
+                                                        return(<TouchableOpacity onPress={() => navigate('InfoBook', {idBook:item._id} )} style={styles.itemCategory}>
+                                                            <View style={styles.avatar}>
+                                                                <Image resizeMode={'contain'} style={styles.avatarBook} source={{uri:item.images[0]}} />
+                                                            </View>
+                                                            <View style={styles.infoBook}>
+                                                                <Text>{item.name}</Text>
+                                                                <Text style={{ color: "red" }}>{item.price}</Text>
+                                                            </View>
+                                                        </TouchableOpacity>)
+                                                        
+                                                    }) : null
+                                                }
                                             </ScrollView>
                                         </View>
                                     </View>
@@ -210,52 +185,21 @@ class Home extends Component {
                                         </View>
                                         <View style={styles.category}>
                                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook1} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>Bút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity style={styles.itemCategory}>
-                                                    <View style={styles.avatar}>
-                                                        <Image resizeMode={'contain'} style={styles.avatarBook} source={Images.AvatarBook} />
-                                                    </View>
-                                                    <View style={styles.infoBook}>
-                                                        <Text>ĐBút chấm đọc Tot-Talk 2 GIAI ĐOẠN VÀNG (Bé 4-6 tuổi)</Text>
-                                                        <Text style={{ color: "red" }}>100 000đ</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-
+                                            {
+                                                this.props.book.allBook.length > 0 ? this.props.book.allBook.map(item => {
+                                                    console.log (item._id)
+                                                    return(<TouchableOpacity onPress={() => navigate('InfoBook', {idBook:item._id} )} style={styles.itemCategory}>
+                                                        <View style={styles.avatar}>
+                                                            <Image resizeMode={'contain'} style={styles.avatarBook} source={{uri:item.images[0]}} />
+                                                        </View>
+                                                        <View style={styles.infoBook}>
+                                                            <Text>{item.name}</Text>
+                                                            <Text style={{ color: "red" }}>{item.price}</Text>
+                                                        </View>
+                                                    </TouchableOpacity>)
+                                                    
+                                                }) : null
+                                            }
                                             </ScrollView>
                                         </View>
                                     </View>
@@ -512,7 +456,8 @@ const mapDispatchToProps = {
     verify: authAction.verify,
     getInfo: authAction.getInfo,
     logout: authAction.logout,
-    vi: authAction.vi
+    vi: authAction.vi,
+    getAllBook: bookAction.getAllBook
 }
 export default connect(
     mapStateToProps,

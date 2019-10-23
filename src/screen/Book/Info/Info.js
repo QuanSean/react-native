@@ -61,12 +61,14 @@ class Info extends Component {
             </View>
         );
     }
+    componentDidMount(){
+        const { navigate } = this.props.navigation;
+        console.log (this.props.navigation.getParam('idBook'))
+
+    }
     render() {
         const state = this.state;
         const { navigate } = this.props.navigation;
-
-
-
         return (
 
             <View style={styles.container}>
@@ -89,7 +91,6 @@ class Info extends Component {
                                             return <Image style={styles.imageItemOverview} resizeMode={'contain'} source={item} />
                                         })
                                     }
-
 
                                 </Swiper>
                             </View>
